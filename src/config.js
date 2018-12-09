@@ -34,7 +34,8 @@ const config = {
       options: {
         db: {
           safe: true
-        }
+        },
+        useNewUrlParser: true
       }
     }
   },

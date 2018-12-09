@@ -2,6 +2,9 @@ import { Router } from 'express'
 import user from './user'
 import auth from './auth'
 import passwordReset from './password-reset'
+import post from './post'
+import genre from './genre'
+import filter from './filter'
 
 const router = new Router()
 
@@ -31,5 +34,8 @@ const router = new Router()
 router.use('/users', user)
 router.use('/auth', auth)
 router.use('/password-resets', passwordReset)
+router.use('/posts', post)
+router.use('/genres', genre)
+router.use('/filters', filter)
 
 export default router
