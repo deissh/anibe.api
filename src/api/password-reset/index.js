@@ -1,12 +1,12 @@
-import { Router } from 'express'
-import { middleware as body } from 'bodymen'
-import { master } from '../../services/passport'
-import { create, show, update } from './controller'
-import { schema } from '../user'
-export PasswordReset, { schema } from './model'
+import { Router } from 'express';
+import { middleware as body } from 'bodymen';
+import { master } from '../../services/passport';
+import { create, show, update } from './controller';
+import { schema } from '../user';
+export PasswordReset, { schema } from './model';
 
-const router = new Router()
-const { email, password } = schema.tree
+const router = new Router();
+const { email, password } = schema.tree;
 
 /**
  * @api {post} /password-resets Send email
@@ -21,7 +21,7 @@ const { email, password } = schema.tree
 router.post('/',
   master(),
   body({ email, link: { type: String, required: true } }),
-  create)
+  create);
 
 /**
  * @api {get} /password-resets/:token Verify token
@@ -32,7 +32,7 @@ router.post('/',
  * @apiError 404 Token has expired or doesn't exist.
  */
 router.get('/:token',
-  show)
+  show);
 
 /**
  * @api {put} /password-resets/:token Submit password
@@ -45,6 +45,6 @@ router.get('/:token',
  */
 router.put('/:token',
   body({ password }),
-  update)
+  update);
 
-export default router
+export default router;

@@ -1,5 +1,5 @@
-import mongoose, { Schema } from 'mongoose'
-import { uid } from 'rand-token'
+import mongoose, { Schema } from 'mongoose';
+import { uid } from 'rand-token';
 
 const passwordResetSchema = new Schema({
   user: {
@@ -18,18 +18,18 @@ const passwordResetSchema = new Schema({
     default: Date.now,
     expires: 3600
   }
-})
+});
 
 passwordResetSchema.methods = {
   view (full) {
     return {
       user: this.user.view(full),
       token: this.token
-    }
+    };
   }
-}
+};
 
-const model = mongoose.model('PasswordReset', passwordResetSchema)
+const model = mongoose.model('PasswordReset', passwordResetSchema);
 
-export const schema = model.schema
-export default model
+export const schema = model.schema;
+export default model;

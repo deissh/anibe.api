@@ -1,13 +1,13 @@
-import { Router } from 'express'
-import { middleware as query } from 'querymen'
-import { middleware as body } from 'bodymen'
-import { token } from '../../services/passport'
-import { create, index, update, destroy } from './controller'
-import { schema } from './model'
-export Genre, { schema } from './model'
+import { Router } from 'express';
+import { middleware as query } from 'querymen';
+import { middleware as body } from 'bodymen';
+import { token } from '../../services/passport';
+import { create, index, update, destroy } from './controller';
+import { schema } from './model';
+export Genre, { schema } from './model';
 
-const router = new Router()
-const { name, rating, visible } = schema.tree
+const router = new Router();
+const { name, rating, visible } = schema.tree;
 
 /**
  * @api {post} /genres Create genre
@@ -26,7 +26,7 @@ const { name, rating, visible } = schema.tree
 router.post('/',
   token({ required: true, roles: ['admin'] }),
   body({ name, rating, visible }),
-  create)
+  create);
 
 /**
  * @api {get} /genres Retrieve genres
@@ -38,7 +38,7 @@ router.post('/',
  */
 router.get('/',
   query(),
-  index)
+  index);
 
 /**
  * @api {put} /genres/:id Update genre
@@ -57,7 +57,7 @@ router.get('/',
 router.put('/:id',
   token({ required: true, roles: ['admin'] }),
   body({ name, rating, visible }),
-  update)
+  update);
 
 /**
  * @api {delete} /genres/:id Delete genre
@@ -71,6 +71,6 @@ router.put('/:id',
  */
 router.delete('/:id',
   token({ required: true, roles: ['admin'] }),
-  destroy)
+  destroy);
 
-export default router
+export default router;

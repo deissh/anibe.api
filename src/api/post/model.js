@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose';
 
 const postSchema = new Schema({
   name: {
@@ -47,9 +47,9 @@ const postSchema = new Schema({
   timestamps: true,
   toJSON: {
     virtuals: true,
-    transform: (obj, ret) => { delete ret._id }
+    transform: (obj, ret) => { delete ret._id; }
   }
-})
+});
 
 postSchema.methods = {
   view (full) {
@@ -72,16 +72,16 @@ postSchema.methods = {
       episodes: this.episodes,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
-    }
+    };
 
     return full ? {
       ...view
       // add properties for a full view
-    } : view
+    } : view;
   }
-}
+};
 
-const model = mongoose.model('Post', postSchema)
+const model = mongoose.model('Post', postSchema);
 
-export const schema = model.schema
-export default model
+export const schema = model.schema;
+export default model;

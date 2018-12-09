@@ -1,8 +1,8 @@
-import { Router } from 'express'
-import { middleware as query } from 'querymen'
-import { index } from './controller'
+import { Router } from 'express';
+import { middleware as query } from 'querymen';
+import { index } from './controller';
 
-const router = new Router()
+const router = new Router();
 
 /**
  * @api {get} /filters Retrieve filters
@@ -14,6 +14,6 @@ const router = new Router()
  */
 router.get('/',
   query(),
-  index)
+  index);
 
-export default router
+export default router;

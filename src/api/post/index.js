@@ -1,13 +1,13 @@
-import { Router } from 'express'
-import { middleware as query } from 'querymen'
-import { middleware as body } from 'bodymen'
-import { token } from '../../services/passport'
-import { create, index, show, update, destroy } from './controller'
-import { schema } from './model'
-export Post, { schema } from './model'
+import { Router } from 'express';
+import { middleware as query } from 'querymen';
+import { middleware as body } from 'bodymen';
+import { token } from '../../services/passport';
+import { create, index, show, update, destroy } from './controller';
+import { schema } from './model';
+export Post, { schema } from './model';
 
-const router = new Router()
-const { name, annotation, description, genre, type, rating, status, date, author, cover, chapters, pages, reading, episodes } = schema.tree
+const router = new Router();
+const { name, annotation, description, genre, type, rating, status, date, author, cover, chapters, pages, reading, episodes } = schema.tree;
 
 /**
  * @api {post} /posts Create post
@@ -37,7 +37,7 @@ const { name, annotation, description, genre, type, rating, status, date, author
 router.post('/',
   token({ required: true, roles: ['admin'] }),
   body({ name, annotation, description, genre, type, rating, status, date, author, cover, chapters, pages, reading, episodes }),
-  create)
+  create);
 
 /**
  * @api {get} /posts Retrieve posts
@@ -50,7 +50,7 @@ router.post('/',
  */
 router.get('/',
   query(),
-  index)
+  index);
 
 /**
  * @api {get} /posts/:id Retrieve post
@@ -61,7 +61,7 @@ router.get('/',
  * @apiError 404 Post not found.
  */
 router.get('/:id',
-  show)
+  show);
 
 /**
  * @api {put} /posts/:id Update post
@@ -91,7 +91,7 @@ router.get('/:id',
 router.put('/:id',
   token({ required: true, roles: ['admin'] }),
   body({ name, annotation, description, genre, type, rating, status, date, author, cover, chapters, pages, reading, episodes }),
-  update)
+  update);
 
 /**
  * @api {delete} /posts/:id Delete post
@@ -105,6 +105,6 @@ router.put('/:id',
  */
 router.delete('/:id',
   token({ required: true, roles: ['admin'] }),
-  destroy)
+  destroy);
 
-export default router
+export default router;

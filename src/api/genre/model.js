@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose';
 
 const genreSchema = new Schema({
   name: {
@@ -14,9 +14,9 @@ const genreSchema = new Schema({
   timestamps: true,
   toJSON: {
     virtuals: true,
-    transform: (obj, ret) => { delete ret._id }
+    transform: (obj, ret) => { delete ret._id; }
   }
-})
+});
 
 genreSchema.methods = {
   view (full) {
@@ -28,16 +28,16 @@ genreSchema.methods = {
       visible: this.visible,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
-    }
+    };
 
     return full ? {
       ...view
       // add properties for a full view
-    } : view
+    } : view;
   }
-}
+};
 
-const model = mongoose.model('Genre', genreSchema)
+const model = mongoose.model('Genre', genreSchema);
 
-export const schema = model.schema
-export default model
+export const schema = model.schema;
+export default model;
