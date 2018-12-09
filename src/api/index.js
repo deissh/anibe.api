@@ -6,7 +6,7 @@ import post from './post';
 import genre from './genre';
 import filter from './filter';
 import statusmonitor from 'express-status-monitor';
-import { token } from '../services/passport';
+import { master } from '../services/passport';
 const router = new Router();
 
 /**
@@ -38,6 +38,6 @@ router.use('/password-resets', passwordReset);
 router.use('/posts', post);
 router.use('/genres', genre);
 router.use('/filters', filter);
-router.use(token({ required: true, roles: ['admin'] }), statusmonitor());
+router.use(master(), statusmonitor());
 
 export default router;

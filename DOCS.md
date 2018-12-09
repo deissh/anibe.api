@@ -5,6 +5,9 @@
 - [Auth](#auth)
 	- [Authenticate](#authenticate)
 	
+- [Filter](#filter)
+	- [Retrieve filters](#retrieve-filters)
+	
 - [Genre](#genre)
 	- [Create genre](#create-genre)
 	- [Delete genre](#delete-genre)
@@ -48,11 +51,24 @@
 |---------|-----------|--------------------------------------|
 | Authorization			| String			|  <p>Basic authorization with email and password.</p>							|
 
+# Filter
+
+## Retrieve filters
+
+
+
+	GET /filters
+
+
 ### Parameters
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>Master access_token.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
 # Genre
 
@@ -260,12 +276,10 @@
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>Master access_token.</p>							|
 | email			| String			|  <p>User's email.</p>							|
 | password			| String			|  <p>User's password.</p>							|
 | name			| String			| **optional** <p>User's name.</p>							|
 | picture			| String			| **optional** <p>User's picture.</p>							|
-| role			| String			| **optional** <p>User's role.</p>							|
 
 ## Delete user
 

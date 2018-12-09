@@ -3,8 +3,11 @@ import { middleware as query } from 'querymen';
 import { middleware as body } from 'bodymen';
 import { token } from '../../services/passport';
 import { create, index, show, update, destroy } from './controller';
-import { schema } from './model';
-export Post, { schema } from './model';
+import Post, { schema } from './model';
+export {
+  Post,
+  schema
+};
 
 const router = new Router();
 const { name, annotation, description, genre, type, rating, status, date, author, cover, chapters, pages, reading, episodes } = schema.tree;
@@ -15,19 +18,19 @@ const { name, annotation, description, genre, type, rating, status, date, author
  * @apiGroup Post
  * @apiPermission admin
  * @apiParam {String} access_token admin access token.
- * @apiParam name Post's name.
- * @apiParam annotation Post's annotation.
- * @apiParam description Post's description.
+ * @apiParam {String} name Post's name.
+ * @apiParam {String} annotation Post's annotation.
+ * @apiParam {String} description Post's description.
  * @apiParam genre Post's genre.
- * @apiParam type Post's type.
- * @apiParam rating Post's rating.
- * @apiParam status Post's status.
- * @apiParam date Post's date.
- * @apiParam author Post's author.
- * @apiParam cover Post's cover.
- * @apiParam chapters Post's chapters.
- * @apiParam pages Post's pages.
- * @apiParam reading Post's reading.
+ * @apiParam {String} type Post's type.
+ * @apiParam {String} rating Post's rating.
+ * @apiParam {String} status Post's status.
+ * @apiParam {String} date Post's date.
+ * @apiParam {String} author Post's author.
+ * @apiParam {String} cover Post's cover.
+ * @apiParam {String} chapters Post's chapters.
+ * @apiParam {String} pages Post's pages.
+ * @apiParam {String} reading Post's reading.
  * @apiParam episodes Post's episodes.
  * @apiSuccess {Object} post Post's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
@@ -69,19 +72,19 @@ router.get('/:id',
  * @apiGroup Post
  * @apiPermission admin
  * @apiParam {String} access_token admin access token.
- * @apiParam name Post's name.
- * @apiParam annotation Post's annotation.
- * @apiParam description Post's description.
+ * @apiParam {String} name Post's name.
+ * @apiParam {String} annotation Post's annotation.
+ * @apiParam {String} description Post's description.
  * @apiParam genre Post's genre.
- * @apiParam type Post's type.
- * @apiParam rating Post's rating.
- * @apiParam status Post's status.
- * @apiParam date Post's date.
- * @apiParam author Post's author.
- * @apiParam cover Post's cover.
- * @apiParam chapters Post's chapters.
- * @apiParam pages Post's pages.
- * @apiParam reading Post's reading.
+ * @apiParam {String} type Post's type.
+ * @apiParam {String} rating Post's rating.
+ * @apiParam {String} status Post's status.
+ * @apiParam {String} date Post's date.
+ * @apiParam {String} author Post's author.
+ * @apiParam {String} cover Post's cover.
+ * @apiParam {String} chapters Post's chapters.
+ * @apiParam {String} pages Post's pages.
+ * @apiParam {String} reading Post's reading.
  * @apiParam episodes Post's episodes.
  * @apiSuccess {Object} post Post's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.

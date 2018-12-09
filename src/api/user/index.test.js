@@ -176,36 +176,6 @@ test('POST /users 400 (master) - missing password', async () => {
   expect(body.param).toBe('password');
 });
 
-test('POST /users 400 (master) - invalid role', async () => {
-  const { status, body } = await request(app())
-    .post(apiRoot)
-    .send({ access_token: masterKey, email: 'd@d.com', password: '123456', role: 'invalid' });
-  expect(status).toBe(400);
-  expect(typeof body).toBe('object');
-  expect(body.param).toBe('role');
-});
-
-test('POST /users 401 (admin)', async () => {
-  const { status } = await request(app())
-    .post(apiRoot)
-    .send({ access_token: adminSession, email: 'd@d.com', password: '123456' });
-  expect(status).toBe(401);
-});
-
-test('POST /users 401 (user)', async () => {
-  const { status } = await request(app())
-    .post(apiRoot)
-    .send({ access_token: session1, email: 'd@d.com', password: '123456' });
-  expect(status).toBe(401);
-});
-
-test('POST /users 401', async () => {
-  const { status } = await request(app())
-    .post(apiRoot)
-    .send({ email: 'd@d.com', password: '123456' });
-  expect(status).toBe(401);
-});
-
 test('PUT /users/me 200 (user)', async () => {
   const { status, body } = await request(app())
     .put(apiRoot + '/me')

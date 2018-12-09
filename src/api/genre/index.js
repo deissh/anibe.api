@@ -3,8 +3,11 @@ import { middleware as query } from 'querymen';
 import { middleware as body } from 'bodymen';
 import { token } from '../../services/passport';
 import { create, index, update, destroy } from './controller';
-import { schema } from './model';
-export Genre, { schema } from './model';
+import Genre, { schema } from './model';
+export {
+  Genre,
+  schema
+};
 
 const router = new Router();
 const { name, rating, visible } = schema.tree;
