@@ -5,7 +5,8 @@ import passwordReset from './password-reset'
 import post from './post'
 import genre from './genre'
 import filter from './filter'
-
+import statusmonitor from 'express-status-monitor'
+import { token } from '../services/passport'
 const router = new Router()
 
 /**
@@ -37,5 +38,6 @@ router.use('/password-resets', passwordReset)
 router.use('/posts', post)
 router.use('/genres', genre)
 router.use('/filters', filter)
+router.use(token({ required: true, roles: ['admin'] }), statusmonitor())
 
 export default router
