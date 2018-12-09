@@ -76,8 +76,16 @@ postSchema.methods = {
 
     return full ? {
       ...view
-      // add properties for a full view
-    } : view;
+    } : {
+      id: this.id,
+      name: this.name,
+      annotation: this.annotation,
+      cover: this.cover,
+      author: this.author,
+      genre: this.genre,
+      type: this.type,
+      rating: this.rating
+    };
   }
 };
 

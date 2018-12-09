@@ -33,6 +33,24 @@ const userSchema = new Schema({
   picture: {
     type: String,
     trim: true
+  },
+  // любимые
+  favorite: {
+    type: Array,
+    default: []
+  },
+  // брошено
+  thrown: {
+    type: Array,
+    default: []
+  },
+  inprogress: {
+    type: Array,
+    default: []
+  },
+  readed: {
+    type: Array,
+    default: []
   }
 }, {
   timestamps: true
@@ -69,7 +87,7 @@ userSchema.methods = {
     let fields = ['id', 'name', 'picture'];
 
     if (full) {
-      fields = [...fields, 'email', 'createdAt'];
+      fields = [...fields, 'email', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed'];
     }
 
     fields.forEach((field) => { view[field] = this[field]; });

@@ -19,32 +19,14 @@ afterEach(() => {
   nock.restore();
 });
 
-test('POST /password-resets 202 (master)', async () => {
+test('POST /password-resets 202', async () => {
   const { status } = await request(app())
     .post(apiRoot)
     .send({ access_token: masterKey, email: 'a@a.com', link: 'http://example.com' });
   expect(status).toBe(202);
 });
 
-test('POST /password-resets 400 (master) - invalid email', async () => {
-  const { status, body } = await request(app())
-    .post(apiRoot)
-    .send({ access_token: masterKey, email: 'invalid', link: 'http://example.com' });
-  expect(status).toBe(400);
-  expect(typeof body).toBe('object');
-  expect(body.param).toBe('email');
-});
-
-test('POST /password-resets 400 (master) - missing email', async () => {
-  const { status, body } = await request(app())
-    .post(apiRoot)
-    .send({ access_token: masterKey, link: 'http://example.com' });
-  expect(status).toBe(400);
-  expect(typeof body).toBe('object');
-  expect(body.param).toBe('email');
-});
-
-test('POST /password-resets 400 (master) - missing link', async () => {
+test('POST /password-resets 400 - missing link', async () => {
   const { status, body } = await request(app())
     .post(apiRoot)
     .send({ access_token: masterKey, email: 'a@a.com' });
@@ -53,7 +35,7 @@ test('POST /password-resets 400 (master) - missing link', async () => {
   expect(body.param).toBe('link');
 });
 
-test('POST /password-resets 404 (master)', async () => {
+test('POST /password-resets 404', async () => {
   const { status } = await request(app())
     .post(apiRoot)
     .send({ access_token: masterKey, email: 'b@b.com', link: 'http://example.com' });
