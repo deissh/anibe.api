@@ -42,13 +42,6 @@ test('POST /password-resets 404', async () => {
   expect(status).toBe(404);
 });
 
-test('POST /password-resets 401', async () => {
-  const { status } = await request(app())
-    .post(apiRoot)
-    .send({ email: 'a@a.com', link: 'http://example.com' });
-  expect(status).toBe(401);
-});
-
 test('GET /password-resets/:token 200', async () => {
   const { status, body } = await request(app()).get(`${apiRoot}/${passwordReset.token}`);
   expect(status).toBe(200);

@@ -21,7 +21,7 @@ const { name, annotation, description, genre, type, rating, status, date, author
  * @apiParam {String} name Post's name.
  * @apiParam {String} annotation Post's annotation.
  * @apiParam {String} description Post's description.
- * @apiParam genre Post's genre.
+ * @apiParam {Object} genre Post's genre.
  * @apiParam {String} type Post's type.
  * @apiParam {String} rating Post's rating.
  * @apiParam {String} status Post's status.

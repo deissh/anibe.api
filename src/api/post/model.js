@@ -2,46 +2,59 @@ import mongoose, { Schema } from 'mongoose';
 
 const postSchema = new Schema({
   name: {
-    type: String
+    type: String,
+    required: true
   },
   annotation: {
-    type: String
+    type: String,
+    required: true
   },
   description: {
-    type: String
+    type: String,
+    required: true
   },
   genre: {
     type: String
   },
   type: {
-    type: String
+    type: String,
+    default: 'Manga'
   },
   rating: {
-    type: String
+    type: String,
+    default: '5.0/10'
   },
   status: {
-    type: String
+    type: String,
+    required: true
   },
   date: {
-    type: String
+    type: String,
+    default: ''
   },
   author: {
-    type: String
+    type: String,
+    default: ''
   },
   cover: {
-    type: String
+    type: String,
+    required: true
   },
   chapters: {
-    type: String
+    type: Array,
+    default: []
   },
   pages: {
-    type: String
+    type: String,
+    default: ''
   },
   reading: {
-    type: String
+    type: String,
+    default: ''
   },
   episodes: {
-    type: String
+    type: Array,
+    default: []
   }
 }, {
   timestamps: true,

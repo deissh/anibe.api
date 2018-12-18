@@ -184,19 +184,19 @@
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>admin access token.</p>							|
-| name			| 			|  <p>Post's name.</p>							|
-| annotation			| 			|  <p>Post's annotation.</p>							|
-| description			| 			|  <p>Post's description.</p>							|
+| name			| String			|  <p>Post's name.</p>							|
+| annotation			| String			|  <p>Post's annotation.</p>							|
+| description			| String			|  <p>Post's description.</p>							|
 | genre			| 			|  <p>Post's genre.</p>							|
-| type			| 			|  <p>Post's type.</p>							|
-| rating			| 			|  <p>Post's rating.</p>							|
-| status			| 			|  <p>Post's status.</p>							|
-| date			| 			|  <p>Post's date.</p>							|
-| author			| 			|  <p>Post's author.</p>							|
-| cover			| 			|  <p>Post's cover.</p>							|
-| chapters			| 			|  <p>Post's chapters.</p>							|
-| pages			| 			|  <p>Post's pages.</p>							|
-| reading			| 			|  <p>Post's reading.</p>							|
+| type			| String			|  <p>Post's type.</p>							|
+| rating			| String			|  <p>Post's rating.</p>							|
+| status			| String			|  <p>Post's status.</p>							|
+| date			| String			|  <p>Post's date.</p>							|
+| author			| String			|  <p>Post's author.</p>							|
+| cover			| String			|  <p>Post's cover.</p>							|
+| chapters			| String			|  <p>Post's chapters.</p>							|
+| pages			| String			|  <p>Post's pages.</p>							|
+| reading			| String			|  <p>Post's reading.</p>							|
 | episodes			| 			|  <p>Post's episodes.</p>							|
 
 ## Delete post
@@ -248,19 +248,19 @@
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>admin access token.</p>							|
-| name			| 			|  <p>Post's name.</p>							|
-| annotation			| 			|  <p>Post's annotation.</p>							|
-| description			| 			|  <p>Post's description.</p>							|
+| name			| String			|  <p>Post's name.</p>							|
+| annotation			| String			|  <p>Post's annotation.</p>							|
+| description			| String			|  <p>Post's description.</p>							|
 | genre			| 			|  <p>Post's genre.</p>							|
-| type			| 			|  <p>Post's type.</p>							|
-| rating			| 			|  <p>Post's rating.</p>							|
-| status			| 			|  <p>Post's status.</p>							|
-| date			| 			|  <p>Post's date.</p>							|
-| author			| 			|  <p>Post's author.</p>							|
-| cover			| 			|  <p>Post's cover.</p>							|
-| chapters			| 			|  <p>Post's chapters.</p>							|
-| pages			| 			|  <p>Post's pages.</p>							|
-| reading			| 			|  <p>Post's reading.</p>							|
+| type			| String			|  <p>Post's type.</p>							|
+| rating			| String			|  <p>Post's rating.</p>							|
+| status			| String			|  <p>Post's status.</p>							|
+| date			| String			|  <p>Post's date.</p>							|
+| author			| String			|  <p>Post's author.</p>							|
+| cover			| String			|  <p>Post's cover.</p>							|
+| chapters			| String			|  <p>Post's chapters.</p>							|
+| pages			| String			|  <p>Post's pages.</p>							|
+| reading			| String			|  <p>Post's reading.</p>							|
 | episodes			| 			|  <p>Post's episodes.</p>							|
 
 # User

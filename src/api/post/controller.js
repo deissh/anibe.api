@@ -21,7 +21,7 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
 export const show = ({ params }, res, next) =>
   Post.findById(params.id)
     .then(notFound(res))
-    .then((post) => post ? post.view() : null)
+    .then((post) => post ? post.view(true) : null)
     .then(success(res))
     .catch(next);
 

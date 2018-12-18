@@ -38,6 +38,6 @@ router.use('/password-resets', passwordReset);
 router.use('/posts', post);
 router.use('/genres', genre);
 router.use('/filters', filter);
-router.use(master(), statusmonitor());
+router.use(statusmonitor());
 
 export default router;
