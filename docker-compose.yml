@@ -11,7 +11,6 @@ services:
       JWT_SECRET: aCjiMuoMpAO2dfk0koKO1uJJ5aUCyaVv
     links:
       - mongo
-      - nginx
 
   mongo:
     image: mongo:latest
@@ -29,3 +28,5 @@ services:
     ports:
       - 80:80
       - 443:443
+    links:
+      - api
