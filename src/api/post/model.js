@@ -1,4 +1,6 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, {
+  Schema
+} from 'mongoose';
 
 const postSchema = new Schema({
   name: {
@@ -13,10 +15,9 @@ const postSchema = new Schema({
     type: String,
     required: true
   },
-  genre: {
-    type: Array,
-    default: []
-  },
+  genre: [{
+    type: String
+  }],
   type: {
     type: String,
     default: 'Manga'
@@ -42,8 +43,8 @@ const postSchema = new Schema({
     required: true
   },
   chapters: {
-    type: Array,
-    default: []
+    type: String,
+    default: ''
   },
   pages: {
     type: String,
@@ -54,14 +55,16 @@ const postSchema = new Schema({
     default: ''
   },
   episodes: {
-    type: Array,
-    default: []
+    type: Object,
+    default: {}
   }
 }, {
   timestamps: true,
   toJSON: {
     virtuals: true,
-    transform: (obj, ret) => { delete ret._id; }
+    transform: (obj, ret) => {
+      delete ret._id;
+    }
   }
 });
 

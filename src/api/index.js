@@ -4,7 +4,6 @@ import auth from './auth';
 import passwordReset from './password-reset';
 import post from './post';
 import genre from './genre';
-import filter from './filter';
 import statusmonitor from 'express-status-monitor';
 const router = new Router();
 
