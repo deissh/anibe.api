@@ -6,8 +6,6 @@ import post from './post';
 import genre from './genre';
 import filter from './filter';
 import statusmonitor from 'express-status-monitor';
-import { master } from '../services/passport';
-import news from './news'
 const router = new Router();
 
 /**
@@ -38,8 +36,6 @@ router.use('/auth', auth);
 router.use('/password-resets', passwordReset);
 router.use('/posts', post);
 router.use('/genres', genre);
-router.use('/filters', filter);
 router.use(statusmonitor());
-router.use('/news', news)
 
 export default router;

@@ -5,9 +5,6 @@
 - [Auth](#auth)
 	- [Authenticate](#authenticate)
 	
-- [Filter](#filter)
-	- [Retrieve filters](#retrieve-filters)
-	
 - [PasswordReset](#passwordreset)
 	- [Send email](#send-email)
 	- [Submit password](#submit-password)
@@ -16,7 +13,6 @@
 - [Post](#post)
 	- [Create post](#create-post)
 	- [Delete post](#delete-post)
-	- [](#)
 	- [Retrieve post](#retrieve-post)
 	- [Retrieve posts](#retrieve-posts)
 	- [Update post](#update-post)
@@ -45,25 +41,6 @@
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 | Authorization			| String			|  <p>Basic authorization with email and password.</p>							|
-
-# Filter
-
-## Retrieve filters
-
-
-
-	GET /filters
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| q			| String			| **optional** <p>Query to search.</p>							|
-| page			| Number			| **optional** <p>Page number.</p>							|
-| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
-| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
-| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
 # PasswordReset
 
@@ -142,23 +119,6 @@
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>admin access token.</p>							|
-
-## 
-
-
-
-	GET /filter
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| q			| String			| **optional** <p>Query to search.</p>							|
-| page			| Number			| **optional** <p>Page number.</p>							|
-| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
-| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
-| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
 ## Retrieve post
 
