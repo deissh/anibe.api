@@ -1,6 +1,7 @@
 import mongoose, {
   Schema
 } from 'mongoose';
+import mongooseKeywords from 'mongoose-keywords';
 
 const postSchema = new Schema({
   name: {
@@ -107,6 +108,6 @@ postSchema.methods = {
 };
 
 const model = mongoose.model('Post', postSchema);
-
+postSchema.plugin(mongooseKeywords, { paths: ['name', 'annotation', 'author'] });
 export const schema = model.schema;
 export default model;
