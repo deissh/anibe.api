@@ -3,7 +3,6 @@ import user from './user';
 import auth from './auth';
 import passwordReset from './password-reset';
 import post from './post';
-import genre from './genre';
 import statusmonitor from 'express-status-monitor';
 const router = new Router();
 
@@ -34,7 +33,6 @@ router.use('/users', user);
 router.use('/auth', auth);
 router.use('/password-resets', passwordReset);
 router.use('/posts', post);
-router.use('/genres', genre);
 router.use(statusmonitor());
 
 export default router;
