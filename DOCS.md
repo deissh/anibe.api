@@ -8,12 +8,6 @@
 - [Filter](#filter)
 	- [Retrieve filters](#retrieve-filters)
 	
-- [Genre](#genre)
-	- [Create genre](#create-genre)
-	- [Delete genre](#delete-genre)
-	- [Retrieve genres](#retrieve-genres)
-	- [Update genre](#update-genre)
-	
 - [PasswordReset](#passwordreset)
 	- [Send email](#send-email)
 	- [Submit password](#submit-password)
@@ -22,6 +16,7 @@
 - [Post](#post)
 	- [Create post](#create-post)
 	- [Delete post](#delete-post)
+	- [](#)
 	- [Retrieve post](#retrieve-post)
 	- [Retrieve posts](#retrieve-posts)
 	- [Update post](#update-post)
@@ -69,70 +64,6 @@
 | limit			| Number			| **optional** <p>Amount of returned items.</p>							|
 | sort			| String[]			| **optional** <p>Order of returned items.</p>							|
 | fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
-
-# Genre
-
-## Create genre
-
-
-
-	POST /genres
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>admin access token.</p>							|
-| name			| 			|  <p>Genre's name.</p>							|
-| rating			| 			|  <p>Genre's rating.</p>							|
-| visible			| 			|  <p>Genre's visible.</p>							|
-
-## Delete genre
-
-
-
-	DELETE /genres/:id
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>admin access token.</p>							|
-
-## Retrieve genres
-
-
-
-	GET /genres
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| q			| String			| **optional** <p>Query to search.</p>							|
-| page			| Number			| **optional** <p>Page number.</p>							|
-| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
-| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
-| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
-
-## Update genre
-
-
-
-	PUT /genres/:id
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>admin access token.</p>							|
-| name			| 			|  <p>Genre's name.</p>							|
-| rating			| 			|  <p>Genre's rating.</p>							|
-| visible			| 			|  <p>Genre's visible.</p>							|
 
 # PasswordReset
 
@@ -187,7 +118,7 @@
 | name			| String			|  <p>Post's name.</p>							|
 | annotation			| String			|  <p>Post's annotation.</p>							|
 | description			| String			|  <p>Post's description.</p>							|
-| genre			| 			|  <p>Post's genre.</p>							|
+| genre			| Object			|  <p>Post's genre.</p>							|
 | type			| String			|  <p>Post's type.</p>							|
 | rating			| String			|  <p>Post's rating.</p>							|
 | status			| String			|  <p>Post's status.</p>							|
@@ -211,6 +142,23 @@
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>admin access token.</p>							|
+
+## 
+
+
+
+	GET /filter
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
 ## Retrieve post
 

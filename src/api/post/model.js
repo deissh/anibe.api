@@ -14,15 +14,16 @@ const postSchema = new Schema({
     required: true
   },
   genre: {
-    type: String
+    type: Array,
+    default: []
   },
   type: {
     type: String,
     default: 'Manga'
   },
   rating: {
-    type: String,
-    default: '5.0/10'
+    type: Number,
+    default: 5.0
   },
   status: {
     type: String,
