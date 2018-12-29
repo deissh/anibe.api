@@ -2,13 +2,15 @@ version: "3.4"
 
 networks:
   proxy:
-    driver: overlay
+    # driver: overlay
 
 services:
   api:
     image: "aniberu/api:${ANIBE_API_TAG:-latest}"
     build: .
     environment:
+      HOST: api.api.localhost
+      PORT: 80
       NODE_ENV: production
       SENDGRID_KEY: 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
       MASTER_KEY: V3T0wJL6wuVk502cPq1cN7mgN1FJvYdR
@@ -17,7 +19,8 @@ services:
       - mongo
     deploy:
       labels:
-        - "traefik.port=80"
+        - "traefik.port=8080"
+        - "traefik.enable=true"
         - "traefik.docker.network=app"
         - "traefik.frontend.rule=Host:localhost"
       placement:
@@ -51,7 +54,7 @@ services:
   # Traefik
   proxy:
     image: "traefik:${TRAEFIK_TAG:-latest}"
-    command: --web --docker --docker.domain=swarm.local --docker.swarmmode --docker.watch
+    command: --web --docker --docker.domain=localhost --docker.watch --accessLog
     networks:
       - proxy
     ports:
@@ -66,7 +69,7 @@ services:
       placement:
         constraints:
           - node.role==manager
-      replicas: 2
+      replicas: 1
       update_config:
         parallelism: 1
         delay: 10s
