@@ -1,5 +1,8 @@
 version: "3.4"
 
+networks:
+  app:
+
 services:
   api:
     image: "aniberu/api:${ANIBE_API_TAG:-latest}"
@@ -10,9 +13,11 @@ services:
       SENDGRID_KEY: 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
       MASTER_KEY: V3T0wJL6wuVk502cPq1cN7mgN1FJvYdR
       JWT_SECRET: aCjiMuoMpAO2dfk0koKO1uJJ5aUCyaVv
-    links:
-      - mongo
-    net: host
+      MONGODB_URI: 'mongodb://mongo/api'
+    ports:
+      - 80:80
+    networks:
+      - app
     deploy:
       placement:
         constraints:
@@ -26,7 +31,8 @@ services:
 
   mongo:
     image: mongo:latest
-    container_name: "mongodb"
+    networks:
+      - app
     environment:
       - MONGO_DATA_DIR=/data/mongodb
     volumes:
