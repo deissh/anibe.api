@@ -21,7 +21,7 @@ const postSchema = new Schema({
   }],
   type: {
     type: String,
-    default: 'Manga'
+    default: 'Манга'
   },
   rating: {
     type: Number,
