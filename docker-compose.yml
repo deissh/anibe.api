@@ -1,24 +1,18 @@
 version: "3.4"
 
-networks:
-  proxy:
-    external: true
-
 services:
   api:
     image: "aniberu/api:${ANIBE_API_TAG:-latest}"
     build: .
     environment:
+      PORT: 80
       NODE_ENV: production
       SENDGRID_KEY: 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
       MASTER_KEY: V3T0wJL6wuVk502cPq1cN7mgN1FJvYdR
       JWT_SECRET: aCjiMuoMpAO2dfk0koKO1uJJ5aUCyaVv
     links:
       - mongo
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=app"
-      - "traefik.frontend.rule=Host:api.anibe.ru"
+    net: host
     deploy:
       placement:
         constraints:
@@ -37,30 +31,6 @@ services:
       - MONGO_DATA_DIR=/data/mongodb
     volumes:
       - /data/mongodb:/data/mongodb
-    labels:
-      - "traefik.enable=false"
-    deploy:
-      placement:
-        constraints:
-          - node.role==manager
-      replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 10s
-      restart_policy:
-        condition: any
-
-  # Traefik
-  proxy:
-    image: "traefik:${TRAEFIK_TAG:-latest}"
-    command: --docker --docker.domain=anibe.ru --logLevel=ERROR --accessLog
-    networks:
-      - proxy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
     deploy:
       placement:
         constraints:
