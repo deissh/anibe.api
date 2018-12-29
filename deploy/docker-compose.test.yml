@@ -18,7 +18,7 @@ services:
 
   api:
     image: aniberu/api
-    build: .
+    build: ../
     labels:
       - "traefik.backend=whoami"
       - "traefik.frontend.rule=Host:api.localhost"
