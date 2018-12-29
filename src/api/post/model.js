@@ -107,7 +107,8 @@ postSchema.methods = {
   }
 };
 
+postSchema.plugin(mongooseKeywords, { paths: ['name', 'annotation'] });
 const model = mongoose.model('Post', postSchema);
-postSchema.plugin(mongooseKeywords, { paths: ['name', 'annotation', 'author'] });
+
 export const schema = model.schema;
 export default model;

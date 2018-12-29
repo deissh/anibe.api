@@ -1,1 +1,0 @@
-ssh -f -N root@104.248.100.151 -L 9000:localhost:9000
