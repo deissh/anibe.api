@@ -1,10 +1,29 @@
-version: '2.1'
+version: "3.4"
+
+# author: Deissh
+# play localy with traefik proxy
+
+networks:
+  proxy:
 
 services:
+  traefik:
+    image: traefik
+    command: --api --docker --docker.domain=localhost --logLevel=ERROR --accessLog
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
   api:
-    image: api
+    image: aniberu/api
     build: .
+    labels:
+      - "traefik.backend=whoami"
+      - "traefik.frontend.rule=Host:api.localhost"
     environment:
+      PORT: 8080
       NODE_ENV: production
       SENDGRID_KEY: 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
       MASTER_KEY: V3T0wJL6wuVk502cPq1cN7mgN1FJvYdR
@@ -20,13 +39,3 @@ services:
     volumes:
       - /data/mongodb:/data/mongodb
 
-  nginx:
-    image: nginx:latest
-    container_name: production_nginx
-    volumes:
-      - ./cfg/nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - 80:80
-      - 443:443
-    links:
-      - api
