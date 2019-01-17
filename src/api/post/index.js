@@ -38,7 +38,7 @@ const { name, annotation, description, genre, type, rating, status, date, author
  * @apiError 401 admin access only.
  */
 router.post('/',
-  // token({ required: true, roles: ['admin'] }),
+  token({ required: true, roles: ['admin'] }),
   body({ name, annotation, description, genre, type, rating, status, date, author, cover, chapters, pages, reading, episodes }),
   create);
 

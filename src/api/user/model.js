@@ -4,7 +4,7 @@ import mongoose, { Schema } from 'mongoose';
 import mongooseKeywords from 'mongoose-keywords';
 import { env } from '../../config';
 
-const roles = ['user', 'admin'];
+const roles = ['user', 'admin', 'dev', 'tester'];
 
 const userSchema = new Schema({
   email: {
@@ -33,6 +33,17 @@ const userSchema = new Schema({
   picture: {
     type: String,
     trim: true
+  },
+  desc: {
+    type: String,
+    default: ''
+  },
+  badges: {
+    type: Array,
+    default: [{
+      icon: 'bug',
+      name: 'Tester'
+    }]
   },
   // любимые
   favorite: {
@@ -84,7 +95,7 @@ userSchema.pre('save', function (next) {
 userSchema.methods = {
   view (full) {
     let view = {};
-    let fields = ['id', 'name', 'picture'];
+    let fields = ['id', 'name', 'picture', 'desc', 'badges'];
 
     if (full) {
       fields = [...fields, 'email', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed'];

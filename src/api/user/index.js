@@ -10,7 +10,7 @@ export {
 };
 
 const router = new Router();
-const { email, password, name, picture } = schema.tree;
+const { email, password, name, picture, desc, favorite, thrown, inprogress, readed } = schema.tree;
 
 /**
  * @api {get} /users Retrieve users
@@ -64,7 +64,7 @@ router.get('/:id',
  * @apiError 409 Email already registered.
  */
 router.post('/',
-  body({ email, password, name, picture }),
+  body({ email, password, name, picture, desc }),
   create);
 
 /**
@@ -75,6 +75,11 @@ router.post('/',
  * @apiParam {String} access_token User access_token.
  * @apiParam {String} [name] User's name.
  * @apiParam {String} [picture] User's picture.
+ * @apiParam {String} [desc] User's description.
+ * @apiParam {Array} [favorite] User's favorite.
+ * @apiParam {Array} [thrown] User's thrown.
+ * @apiParam {Array} [inprogress] User's inprogress.
+ * @apiParam {Array} [readed] User's readed.
  * @apiSuccess {Object} user User's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 Current user or admin access only.
@@ -82,7 +87,7 @@ router.post('/',
  */
 router.put('/:id',
   token({ required: true }),
-  body({ name, picture }),
+  body({ name, picture, desc, favorite, thrown, inprogress, readed }),
   update);
 
 /**
