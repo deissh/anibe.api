@@ -98,7 +98,7 @@ userSchema.methods = {
     let fields = ['id', 'name', 'picture', 'desc', 'badges'];
 
     if (full) {
-      fields = [...fields, 'email', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed'];
+      fields = [...fields, 'email', 'role', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed'];
     }
 
     fields.forEach((field) => { view[field] = this[field]; });
