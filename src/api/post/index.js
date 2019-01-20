@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { middleware as query } from 'querymen';
 import { middleware as body } from 'bodymen';
 import { token } from '../../services/passport';
-import { create, index, show, update, destroy } from './controller';
+import { create, index, show, update, destroy, addToList, delFromList } from './controller';
 import Post, { schema } from './model';
 export {
   Post,
@@ -120,5 +120,38 @@ router.put('/:id',
 router.delete('/:id',
   token({ required: true, roles: ['admin'] }),
   destroy);
+
+/**
+ * @api {post} /posts/:id/user-list
+ * @apiName AddToUserList
+ * @apiGroup Post
+ * @apiPermission user
+ * @apiParam {String} status user post status
+ * @apiSuccess (Success 201) 201 Created
+ * @apiError 404 Post not found.
+ * @apiError 401 user access only.
+ */
+router.post('/:id/user-list',
+  token({ required: true }),
+  body({
+    status: {
+      type: String,
+      required: true
+    }
+  }),
+  addToList);
+
+/**
+ * @api {delete} /posts/:id/user-list
+ * @apiName DeleteFromUserList
+ * @apiGroup Post
+ * @apiPermission user
+ * @apiSuccess (Success 204) 204 No Content
+ * @apiError 404 Post not found.
+ * @apiError 401 user access only.
+ */
+router.delete('/:id/user-list',
+  token({ required: true }),
+  delFromList);
 
 export default router;
