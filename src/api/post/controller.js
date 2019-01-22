@@ -67,8 +67,10 @@ export const addToList = ({ bodymen: { body }, params, user }, res, next) =>
     })
     .then(notFound(res))
     .then((post) => {
-      user[body.status].push(params.id);
-      user.save();
+      if (post) {
+        user[body.status].push(params.id);
+        user.save();
+      }
 
       return {};
     })

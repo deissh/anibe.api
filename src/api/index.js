@@ -35,4 +35,6 @@ router.use('/password-resets', passwordReset);
 router.use('/posts', post);
 router.use(statusmonitor());
 
+router.get('/', (req, res) => res.status(200).json({}));
+
 export default router;
