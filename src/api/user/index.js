@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { middleware as query } from 'querymen';
 import { middleware as body } from 'bodymen';
 import { password as passwordAuth, token } from '../../services/passport';
-import { index, showMe, show, create, update, updatePassword, destroy } from './controller';
+import { index, showMe, show, create, update, updatePassword, destroy, badges } from './controller';
 import User, { schema } from './model';
 export {
   User,
@@ -119,5 +119,34 @@ router.put('/:id/password',
 router.delete('/:id',
   token({ required: true, roles: ['admin'] }),
   destroy);
+
+/**
+ * @api {post} /users/:id Add user badges
+ * @apiName AddBadges
+ * @apiGroup User
+ * @apiPermissions admin
+ * @apiParam {Array} badges User badges
+ * @apiSuccess (Success 201) 201 Created
+ * @apiError 401 Admin access only.
+ * @apiError 400 Error in body
+ * @apiError 404 User not found.
+ */
+router.post('/:id',
+  token({ required: true, roles: ['admin'] }),
+  body({
+    badges: [
+      {
+        name: {
+          type: String,
+          required: true
+        },
+        icon: {
+          type: String,
+          required: true
+        }
+      }
+    ]
+  }),
+  badges);
 
 export default router;

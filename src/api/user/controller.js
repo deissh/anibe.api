@@ -91,3 +91,12 @@ export const destroy = ({ params }, res, next) =>
     .then((user) => user ? user.remove() : null)
     .then(success(res, 204))
     .catch(next);
+
+export const badges = ({ bodymen: { body }, params, user }, res, next) =>
+  User.findById(params.id === 'me' ? user.id : params.id)
+    .then((result) => {
+      user.badges = body.badges;
+      return user.save();
+    })
+    .then(success(res, 201))
+    .catch(next);
