@@ -1,4 +1,4 @@
-import { success, notFound } from '../../services/response/';
+import { success, notFound, Failed } from '../../services/response/';
 import { Post } from '.';
 
 export const create = ({ bodymen: { body } }, res, next) =>
@@ -48,46 +48,57 @@ export const addToList = ({ bodymen: { body }, params, user }, res, next) =>
       const lists = ['favorite', 'thrown', 'inprogress', 'readed'];
 
       if (!lists.includes(body.status)) {
-        res.status(400).json({
-          valid: false,
-          message: 'Status must be one of \'favorite\', \'thrown\', \'inprogress\', \'readed\''
-        });
         return null;
       }
 
-      if (user[body.status].indexOf(params.id) !== -1) {
-        res.status(400).json({
-          valid: false,
-          message: 'Already contain this post'
+      return params.id;
+    })
+    .then(Failed(res, 400, 'Status must be one of \'favorite\', \'thrown\', \'inprogress\', \'readed\''))
+    .then((id) => {
+      if (id) {
+        return user.update({
+          '$pull': {
+            favorite: id,
+            thrown: id,
+            inprogress: id,
+            readed: id
+          }
         });
+      } else {
         return null;
       }
-
-      return post;
     })
-    .then(notFound(res))
-    .then((post) => {
-      if (post) {
-        user[body.status].push(params.id);
-        user.save();
+    .then((pref) => {
+      if (pref) {
+        return user.update({
+          '$push': {
+            [body.status]: params.id
+          }
+        });
+      } else {
+        return null;
       }
-
-      return {};
     })
-    .then(success(res, 201));
+    .then((data) => {
+      if (data) {
+        return {};
+      }
+    })
+    .then(success(res, 201))
+    .catch(next);
 
 export const delFromList = ({ params, user }, res, next) =>
   Post.findById(params.id)
     .then(notFound(res))
-    .then((post) => {
-      const lists = ['favorite', 'thrown', 'inprogress', 'readed'];
-      lists.forEach(i => {
-        user[i] = user[i].filter((v) => {
-          return v !== params.id;
-        });
+    .then(() => {
+      return user.update({
+        '$pull': {
+          favorite: params.id,
+          thrown: params.id,
+          inprogress: params.id,
+          readed: params.id
+        }
       });
-
-      user.save();
-      return {};
     })
-    .then(success(res, 204));
+    .then(success(res, 204))
+    .catch(next);
