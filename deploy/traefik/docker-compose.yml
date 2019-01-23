@@ -1,0 +1,23 @@
+version: "3.4"
+
+# author: Deissh
+# play localy with traefik proxy
+
+networks:
+  proxy:
+    external: true
+
+services:
+  traefik:
+    image: traefik:1.5.4
+    restart: always
+    command: --api --docker --docker.domain=localhost --logLevel=ERROR --accessLog
+    networks:
+      - proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/traefik.toml
+      - ./acme.json:/acme.json

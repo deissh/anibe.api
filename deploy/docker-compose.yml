@@ -2,22 +2,27 @@ version: "3.4"
 
 networks:
   app:
+  proxy:
+    external: true
 
 services:
   api:
     image: "aniberu/api:${ANIBE_API_TAG:-latest}"
     build: ../
     environment:
-      PORT: 80
+      PORT: 8080
       NODE_ENV: production
       SENDGRID_KEY: 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
       MASTER_KEY: V3T0wJL6wuVk502cPq1cN7mgN1FJvYdR
       JWT_SECRET: aCjiMuoMpAO2dfk0koKO1uJJ5aUCyaVv
       MONGODB_URI: 'mongodb://mongo/api'
-    ports:
-      - 80:80
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.basic.port=8080"
     networks:
       - app
+      - proxy
     deploy:
       placement:
         constraints:
