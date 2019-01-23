@@ -51,28 +51,29 @@ export const addToList = ({ bodymen: { body }, params, user }, res, next) =>
         return null;
       }
 
-      return params.id;
+      return post;
     })
     .then(Failed(res, 400, 'Status must be one of \'favorite\', \'thrown\', \'inprogress\', \'readed\''))
-    .then((id) => {
-      if (id) {
+    .then((post) => {
+      if (post) {
         return user.update({
           '$pull': {
-            favorite: id,
-            thrown: id,
-            inprogress: id,
-            readed: id
+            favorite: { id: post.id },
+            thrown: { id: post.id },
+            inprogress: { id: post.id },
+            readed: { id: post.id }
           }
         });
       } else {
         return null;
       }
     })
-    .then((pref) => {
-      if (pref) {
+    .then((data) => data ? Post.findById(params.id) : null)
+    .then((post) => {
+      if (post) {
         return user.update({
           '$push': {
-            [body.status]: params.id
+            [body.status]: post.view(false)
           }
         });
       } else {
@@ -90,13 +91,13 @@ export const addToList = ({ bodymen: { body }, params, user }, res, next) =>
 export const delFromList = ({ params, user }, res, next) =>
   Post.findById(params.id)
     .then(notFound(res))
-    .then(() => {
+    .then((post) => {
       return user.update({
         '$pull': {
-          favorite: params.id,
-          thrown: params.id,
-          inprogress: params.id,
-          readed: params.id
+          favorite: { id: post.id },
+          thrown: { id: post.id },
+          inprogress: { id: post.id },
+          readed: { id: post.id }
         }
       });
     })
