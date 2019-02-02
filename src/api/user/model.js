@@ -62,6 +62,10 @@ const userSchema = new Schema({
   readed: {
     type: Array,
     default: []
+  },
+  willread: {
+    type: Array,
+    default: []
   }
 }, {
   timestamps: true
@@ -98,7 +102,7 @@ userSchema.methods = {
     let fields = ['id', 'name', 'picture', 'desc', 'badges'];
 
     if (full) {
-      fields = [...fields, 'email', 'role', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed'];
+      fields = [...fields, 'email', 'role', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed', 'willread'];
     }
 
     fields.forEach((field) => { view[field] = this[field]; });

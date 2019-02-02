@@ -10,7 +10,7 @@ export {
 };
 
 const router = new Router();
-const { email, password, name, picture, desc, favorite, thrown, inprogress, readed } = schema.tree;
+const { email, password, name, picture, desc } = schema.tree;
 
 /**
  * @api {get} /users Retrieve users
@@ -76,10 +76,6 @@ router.post('/',
  * @apiParam {String} [name] User's name.
  * @apiParam {String} [picture] User's picture.
  * @apiParam {String} [desc] User's description.
- * @apiParam {Array} [favorite] User's favorite.
- * @apiParam {Array} [thrown] User's thrown.
- * @apiParam {Array} [inprogress] User's inprogress.
- * @apiParam {Array} [readed] User's readed.
  * @apiSuccess {Object} user User's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 Current user or admin access only.
@@ -87,7 +83,7 @@ router.post('/',
  */
 router.put('/:id',
   token({ required: true }),
-  body({ name, picture, desc, favorite, thrown, inprogress, readed }),
+  body({ name, picture, desc }),
   update);
 
 /**

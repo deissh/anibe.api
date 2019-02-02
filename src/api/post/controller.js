@@ -45,7 +45,7 @@ export const addToList = ({ bodymen: { body }, params, user }, res, next) =>
     .then(notFound(res))
     .then((post) => {
       // список разрешенных списков у пользователя
-      const lists = ['favorite', 'thrown', 'inprogress', 'readed'];
+      const lists = ['favorite', 'thrown', 'inprogress', 'readed', 'willread'];
 
       if (!lists.includes(body.status)) {
         return null;
@@ -53,7 +53,7 @@ export const addToList = ({ bodymen: { body }, params, user }, res, next) =>
 
       return post;
     })
-    .then(Failed(res, 400, 'Status must be one of \'favorite\', \'thrown\', \'inprogress\', \'readed\''))
+    .then(Failed(res, 400, 'Status must be one of \'favorite\', \'thrown\', \'inprogress\', \'readed\', \'willread\''))
     .then((post) => {
       if (post) {
         return user.update({
@@ -61,7 +61,8 @@ export const addToList = ({ bodymen: { body }, params, user }, res, next) =>
             favorite: { id: post.id },
             thrown: { id: post.id },
             inprogress: { id: post.id },
-            readed: { id: post.id }
+            readed: { id: post.id },
+            willread: { id: post.id }
           }
         });
       } else {
@@ -97,7 +98,8 @@ export const delFromList = ({ params, user }, res, next) =>
           favorite: { id: post.id },
           thrown: { id: post.id },
           inprogress: { id: post.id },
-          readed: { id: post.id }
+          readed: { id: post.id },
+          willread: { id: post.id }
         }
       });
     })
