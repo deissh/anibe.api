@@ -9,7 +9,7 @@ export const uploader = multer({
     acl: 'public-read',
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: function ({ user }, file, cb) {
-      cb(null, 'avatars/' + user._id);
+      cb(null, 'avatars/' + user._id + '/' + Date.now().toString());
     }
   })
 });
