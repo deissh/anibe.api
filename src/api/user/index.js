@@ -88,7 +88,7 @@ router.put('/:id',
   update);
 
 /**
- * @api {put} /update/avatar Update user avatar
+ * @api {post} /update/avatar Update user avatar
  * @apiName UpdateUserAvatar
  * @apiGroup User
  * @apiPermission user
@@ -99,7 +99,7 @@ router.put('/:id',
  * @apiError 401 Current user or admin access only.
  * @apiError 404 User not found.
  */
-router.put('/update/avatar',
+router.post('/update/avatar',
   token({ required: true }),
   uploader.single('picture'),
   updateAvatar);
