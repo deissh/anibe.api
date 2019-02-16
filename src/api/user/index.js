@@ -87,6 +87,18 @@ router.put('/:id',
   body({ name, picture, desc }),
   update);
 
+/**
+ * @api {put} /update/avatar Update user avatar
+ * @apiName UpdateUserAvatar
+ * @apiGroup User
+ * @apiPermission user
+ * @apiParam {String} access_token User access_token.
+ * @apiParam {File} [picture] User's new avatar
+ * @apiSuccess {Object} user User's data.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 401 Current user or admin access only.
+ * @apiError 404 User not found.
+ */
 router.put('/update/avatar',
   token({ required: true }),
   uploader.single('picture'),
