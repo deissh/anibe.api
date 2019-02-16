@@ -1,6 +1,7 @@
 import { success, notFound } from '../../services/response/';
 import { User } from '.';
 import { sign } from '../../services/jwt';
+import { cdnUrl } from '../../config';
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   User.count(query)
@@ -60,6 +61,17 @@ export const update = ({ bodymen: { body }, params, user }, res, next) =>
       return result;
     })
     .then((user) => user ? Object.assign(user, body).save() : null)
+    .then((user) => user ? user.view(true) : null)
+    .then(success(res))
+    .catch(next);
+
+export const updateAvatar = ({ user, file }, res, next) =>
+  User.findById(user.id)
+    .then(notFound(res))
+    .then((user) => {
+      user.picture = `${cdnUrl}/${file.key}`;
+      return user.save();
+    })
     .then((user) => user ? user.view(true) : null)
     .then(success(res))
     .catch(next);

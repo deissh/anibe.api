@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { middleware as query } from 'querymen';
 import { middleware as body } from 'bodymen';
 import { password as passwordAuth, token } from '../../services/passport';
-import { index, showMe, show, create, update, updatePassword, destroy, badges } from './controller';
+import { uploader } from '../../services/multer';
+import { index, showMe, show, create, update, updatePassword, destroy, badges, updateAvatar } from './controller';
 import User, { schema } from './model';
 export {
   User,
@@ -85,6 +86,11 @@ router.put('/:id',
   token({ required: true }),
   body({ name, picture, desc }),
   update);
+
+router.put('/update/avatar',
+  token({ required: true }),
+  uploader.single('picture'),
+  updateAvatar);
 
 /**
  * @api {put} /users/:id/password Update password
