@@ -10,10 +10,13 @@ services:
     environment:
       PORT: 80
       NODE_ENV: production
-      SENDGRID_KEY: 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
-      MASTER_KEY: V3T0wJL6wuVk502cPq1cN7mgN1FJvYdR
-      JWT_SECRET: aCjiMuoMpAO2dfk0koKO1uJJ5aUCyaVv
+      SENDGRID_KEY: 123312
+      MASTER_KEY: 123312
+      JWT_SECRET: 123312
       MONGODB_URI: 'mongodb://mongo/api'
+      AWS_ACCESS_KEY_ID: qwerty123
+      AWS_SECRET_ACCESS_KEY: qwerty123
+      AWS_S3_BUCKET_NAME: qwerty123
     ports:
       - 80:80
     networks:
