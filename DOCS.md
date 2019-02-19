@@ -11,13 +11,16 @@
 	- [Verify token](#verify-token)
 	
 - [Post](#post)
+	- [](#)
 	- [Create post](#create-post)
+	- [](#)
 	- [Delete post](#delete-post)
 	- [Retrieve post](#retrieve-post)
 	- [Retrieve posts](#retrieve-posts)
 	- [Update post](#update-post)
 	
 - [User](#user)
+	- [Add user badges](#add-user-badges)
 	- [Create user](#create-user)
 	- [Delete user](#delete-user)
 	- [Retrieve current user](#retrieve-current-user)
@@ -25,6 +28,7 @@
 	- [Retrieve users](#retrieve-users)
 	- [Update password](#update-password)
 	- [Update user](#update-user)
+	- [Update user avatar](#update-user-avatar)
 	
 
 
@@ -80,6 +84,19 @@
 
 # Post
 
+## 
+
+
+
+	POST /posts/:id/user-list
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| status			| String			|  <p>user post status</p>							|
+
 ## Create post
 
 
@@ -106,6 +123,13 @@
 | pages			| String			|  <p>Post's pages.</p>							|
 | reading			| String			|  <p>Post's reading.</p>							|
 | episodes			| 			|  <p>Post's episodes.</p>							|
+
+## 
+
+
+
+	DELETE /posts/:id/user-list
+
 
 ## Delete post
 
@@ -172,6 +196,19 @@
 | episodes			| 			|  <p>Post's episodes.</p>							|
 
 # User
+
+## Add user badges
+
+
+
+	POST /users/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| badges			| Array			|  <p>User badges</p>							|
 
 ## Create user
 
@@ -272,5 +309,20 @@
 | access_token			| String			|  <p>User access_token.</p>							|
 | name			| String			| **optional** <p>User's name.</p>							|
 | picture			| String			| **optional** <p>User's picture.</p>							|
+| desc			| String			| **optional** <p>User's description.</p>							|
+
+## Update user avatar
+
+
+
+	POST /update/avatar
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>User access_token.</p>							|
+| picture			| File			| **optional** <p>User's new avatar</p>							|
 
 
