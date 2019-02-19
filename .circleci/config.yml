@@ -1,0 +1,91 @@
+version: 2
+jobs:
+  lint:
+    docker:
+      - image: circleci/node:8.9.0
+    working_dirictory: ~/repo
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: yarn lint
+
+  test:
+    docker:
+      - image: circleci/node:8.9.0
+    working_dirictory: ~/repo
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          command: yarn test --coverage
+          name: "Unit test"
+
+      - store_test_results:
+        path: coverage
+
+  build:
+    docker:
+      - image: circleci/node:8.9.0
+    working_dirictory: ~/repo
+
+    steps:
+      - run: "echo todo"
+      # - checkout
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ checksum "package.json" }}
+      #       - v1-dependencies-
+
+      # - run: yarn install
+
+      # - save_cache:
+      #     paths:
+      #       - node_modules
+      #     key: v1-dependencies-{{ checksum "package.json" }}
+
+      # - run:
+      #     command: yarn docs
+      #     name: "Unit test"
+
+      # - store_test_results:
+      #   path: coverage
+
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - lint
+      - test
+          requires:
+            - lint
+      - build:
+          requires:
+            - lint
+            - test
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only: master

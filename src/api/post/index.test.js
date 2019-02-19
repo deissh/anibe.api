@@ -21,7 +21,27 @@ beforeEach(async () => {
   });
   userSession = signSync(user.id);
   adminSession = signSync(admin.id);
-  post = await Post.create({});
+  post = await Post.create({
+    name: 'test',
+    annotation: 'test',
+    description: 'test',
+    genre: [ 'test1', 'test2' ],
+    type: 'test',
+    rating: 5.1,
+    status: 'test',
+    date: 'test',
+    author: 'test',
+    cover: 'test',
+    chapters: 'test',
+    pages: 'test',
+    reading: 'test',
+    episodes: {
+      1: [
+        'first',
+        'second'
+      ]
+    }
+  });
 });
 
 test('POST /posts 201 (admin)', async () => {
@@ -35,9 +55,9 @@ test('POST /posts 201 (admin)', async () => {
       name: 'test',
       annotation: 'test',
       description: 'test',
-      genre: 'test',
+      genre: [ 'test1', 'test2' ],
       type: 'test',
-      rating: 'test',
+      rating: 5.1,
       status: 'test',
       date: 'test',
       author: 'test',
@@ -45,16 +65,21 @@ test('POST /posts 201 (admin)', async () => {
       chapters: 'test',
       pages: 'test',
       reading: 'test',
-      episodes: 'test'
+      episodes: {
+        1: [
+          'first',
+          'second'
+        ]
+      }
     });
   expect(status).toBe(201);
   expect(typeof body).toEqual('object');
   expect(body.name).toEqual('test');
   expect(body.annotation).toEqual('test');
   expect(body.description).toEqual('test');
-  expect(body.genre).toEqual('test');
+  expect(body.genre).toEqual([ 'test1', 'test2' ]);
   expect(body.type).toEqual('test');
-  expect(body.rating).toEqual('test');
+  expect(body.rating).toEqual(5.1);
   expect(body.status).toEqual('test');
   expect(body.date).toEqual('test');
   expect(body.author).toEqual('test');
@@ -62,7 +87,12 @@ test('POST /posts 201 (admin)', async () => {
   expect(body.chapters).toEqual('test');
   expect(body.pages).toEqual('test');
   expect(body.reading).toEqual('test');
-  expect(body.episodes).toEqual('test');
+  expect(body.episodes).toEqual({
+    1: [
+      'first',
+      'second'
+    ]
+  });
 });
 
 test('POST /posts 401 (user)', async () => {
@@ -125,9 +155,9 @@ test('PUT /posts/:id 200 (admin)', async () => {
       name: 'test',
       annotation: 'test',
       description: 'test',
-      genre: 'test',
+      genre: [ 'test1', 'test2' ],
       type: 'test',
-      rating: 'test',
+      rating: 5.1,
       status: 'test',
       date: 'test',
       author: 'test',
@@ -135,17 +165,21 @@ test('PUT /posts/:id 200 (admin)', async () => {
       chapters: 'test',
       pages: 'test',
       reading: 'test',
-      episodes: 'test'
+      episodes: {
+        1: [
+          'first',
+          'second'
+        ]
+      }
     });
   expect(status).toBe(200);
   expect(typeof body).toEqual('object');
-  expect(body.id).toEqual(post.id);
   expect(body.name).toEqual('test');
   expect(body.annotation).toEqual('test');
   expect(body.description).toEqual('test');
-  expect(body.genre).toEqual('test');
+  expect(body.genre).toEqual([ 'test1', 'test2' ]);
   expect(body.type).toEqual('test');
-  expect(body.rating).toEqual('test');
+  expect(body.rating).toEqual(5.1);
   expect(body.status).toEqual('test');
   expect(body.date).toEqual('test');
   expect(body.author).toEqual('test');
@@ -153,7 +187,12 @@ test('PUT /posts/:id 200 (admin)', async () => {
   expect(body.chapters).toEqual('test');
   expect(body.pages).toEqual('test');
   expect(body.reading).toEqual('test');
-  expect(body.episodes).toEqual('test');
+  expect(body.episodes).toEqual({
+    1: [
+      'first',
+      'second'
+    ]
+  });
 });
 
 test('PUT /posts/:id 401 (user)', async () => {
@@ -239,4 +278,73 @@ test('DELETE /posts/:id 404 (admin)', async () => {
       access_token: adminSession
     });
   expect(status).toBe(404);
+});
+
+test('POST /posts/:id/user-list 401', async () => {
+  const {
+    status
+  } = await request(app())
+    .post(`${apiRoot}/${post.id}/user-list`)
+    .send({
+      status: 'thrown'
+    });
+  expect(status).toBe(401);
+});
+
+test('POST /posts/:id/user-list 201 (user)', async () => {
+  const {
+    status
+  } = await request(app())
+    .post(`${apiRoot}/${post.id}/user-list`)
+    .query({
+      access_token: userSession
+    })
+    .send({
+      status: 'thrown'
+    });
+  expect(status).toBe(201);
+});
+
+test('POST /posts/:id/user-list 201 (admin)', async () => {
+  const {
+    status
+  } = await request(app())
+    .post(`${apiRoot}/${post.id}/user-list`)
+    .query({
+      access_token: adminSession
+    })
+    .send({
+      status: 'thrown'
+    });
+  expect(status).toBe(201);
+});
+
+test('DELETE /posts/:id/user-list 401', async () => {
+  const {
+    status
+  } = await request(app())
+    .delete(`${apiRoot}/${post.id}/user-list`);
+  expect(status).toBe(401);
+});
+
+test('DELETE /posts/:id/user-list 201 (user)', async () => {
+  const {
+    status
+  } = await request(app())
+    .delete(`${apiRoot}/${post.id}/user-list`)
+    .query({
+      access_token: userSession
+    });
+  expect(status).toBe(204);
+});
+
+test('DELETE /posts/:id/user-list 201 (admin)', async () => {
+  const {
+    status
+  } = await request(app())
+    .delete(`${apiRoot}/${post.id}/user-list`)
+    .query({
+      access_token: adminSession
+    });
+  expect(status).toBe(204);
 });

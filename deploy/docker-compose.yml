@@ -1,0 +1,50 @@
+version: "3.4"
+
+networks:
+  app:
+
+services:
+  api:
+    image: "aniberu/api:${ANIBE_API_TAG:-latest}"
+    build: ../
+    environment:
+      PORT: 80
+      NODE_ENV: production
+      SENDGRID_KEY: 123312
+      MASTER_KEY: 123312
+      JWT_SECRET: 123312
+      MONGODB_URI: 'mongodb://mongo/api'
+      AWS_ACCESS_KEY_ID: qwerty123
+      AWS_SECRET_ACCESS_KEY: qwerty123
+      AWS_S3_BUCKET_NAME: qwerty123
+    ports:
+      - 80:80
+    networks:
+      - app
+    deploy:
+      placement:
+        constraints:
+          - node.role==worker
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+
+  mongo:
+    image: mongo:latest
+    networks:
+      - app
+    volumes:
+      - /data/db:/data/db
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any

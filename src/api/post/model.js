@@ -1,4 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, {
+  Schema
+} from 'mongoose';
+import mongooseKeywords from 'mongoose-keywords';
 
 const postSchema = new Schema({
   name: {
@@ -13,16 +16,16 @@ const postSchema = new Schema({
     type: String,
     required: true
   },
-  genre: {
+  genre: [{
     type: String
-  },
+  }],
   type: {
     type: String,
-    default: 'Manga'
+    default: 'Манга'
   },
   rating: {
-    type: String,
-    default: '5.0/10'
+    type: Number,
+    default: 5.0
   },
   status: {
     type: String,
@@ -41,8 +44,8 @@ const postSchema = new Schema({
     required: true
   },
   chapters: {
-    type: Array,
-    default: []
+    type: String,
+    default: ''
   },
   pages: {
     type: String,
@@ -53,14 +56,16 @@ const postSchema = new Schema({
     default: ''
   },
   episodes: {
-    type: Array,
-    default: []
+    type: Object,
+    default: {}
   }
 }, {
   timestamps: true,
   toJSON: {
     virtuals: true,
-    transform: (obj, ret) => { delete ret._id; }
+    transform: (obj, ret) => {
+      delete ret._id;
+    }
   }
 });
 
@@ -102,6 +107,7 @@ postSchema.methods = {
   }
 };
 
+postSchema.plugin(mongooseKeywords, { paths: ['name', 'annotation'] });
 const model = mongoose.model('Post', postSchema);
 
 export const schema = model.schema;

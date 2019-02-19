@@ -73,23 +73,6 @@ test('PUT /password-resets/:token 200', async () => {
   expect(await updatedUser.authenticate('654321')).toBeTruthy();
 });
 
-test('PUT /password-resets/:token 400 - invalid password', async () => {
-  const { status, body } = await request(app())
-    .put(`${apiRoot}/${passwordReset.token}`)
-    .send({ password: '321' });
-  expect(status).toBe(400);
-  expect(typeof body).toBe('object');
-  expect(body.param).toBe('password');
-});
-
-test('PUT /password-resets/:token 400 - missing password', async () => {
-  const { status, body } = await request(app())
-    .put(`${apiRoot}/${passwordReset.token}`);
-  expect(status).toBe(400);
-  expect(typeof body).toBe('object');
-  expect(body.param).toBe('password');
-});
-
 test('PUT /password-resets/:token 404', async () => {
   const { status } = await request(app())
     .put(apiRoot + '/123')

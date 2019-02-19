@@ -1,6 +1,7 @@
 import { success, notFound } from '../../services/response/';
 import { User } from '.';
 import { sign } from '../../services/jwt';
+import { cdnUrl } from '../../config';
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   User.count(query)
@@ -64,6 +65,17 @@ export const update = ({ bodymen: { body }, params, user }, res, next) =>
     .then(success(res))
     .catch(next);
 
+export const updateAvatar = ({ user, file }, res, next) =>
+  User.findById(user.id)
+    .then(notFound(res))
+    .then((user) => {
+      user.picture = `${cdnUrl}/${file.key}`;
+      return user.save();
+    })
+    .then((user) => user ? user.view(true) : null)
+    .then(success(res))
+    .catch(next);
+
 export const updatePassword = ({ bodymen: { body }, params, user }, res, next) =>
   User.findById(params.id === 'me' ? user.id : params.id)
     .then(notFound(res))
@@ -90,4 +102,13 @@ export const destroy = ({ params }, res, next) =>
     .then(notFound(res))
     .then((user) => user ? user.remove() : null)
     .then(success(res, 204))
+    .catch(next);
+
+export const badges = ({ bodymen: { body }, params, user }, res, next) =>
+  User.findById(params.id === 'me' ? user.id : params.id)
+    .then((result) => {
+      user.badges = body.badges;
+      return user.save();
+    })
+    .then(success(res, 201))
     .catch(next);

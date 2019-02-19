@@ -4,7 +4,7 @@ import mongoose, { Schema } from 'mongoose';
 import mongooseKeywords from 'mongoose-keywords';
 import { env } from '../../config';
 
-const roles = ['user', 'admin'];
+const roles = ['user', 'admin', 'dev', 'tester'];
 
 const userSchema = new Schema({
   email: {
@@ -34,6 +34,17 @@ const userSchema = new Schema({
     type: String,
     trim: true
   },
+  desc: {
+    type: String,
+    default: ''
+  },
+  badges: {
+    type: Array,
+    default: [{
+      icon: 'bug',
+      name: 'Tester'
+    }]
+  },
   // любимые
   favorite: {
     type: Array,
@@ -49,6 +60,10 @@ const userSchema = new Schema({
     default: []
   },
   readed: {
+    type: Array,
+    default: []
+  },
+  willread: {
     type: Array,
     default: []
   }
@@ -84,10 +99,10 @@ userSchema.pre('save', function (next) {
 userSchema.methods = {
   view (full) {
     let view = {};
-    let fields = ['id', 'name', 'picture'];
+    let fields = ['id', 'name', 'picture', 'desc', 'badges'];
 
     if (full) {
-      fields = [...fields, 'email', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed'];
+      fields = [...fields, 'email', 'role', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed', 'willread'];
     }
 
     fields.forEach((field) => { view[field] = this[field]; });

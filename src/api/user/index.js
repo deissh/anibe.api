@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { middleware as query } from 'querymen';
 import { middleware as body } from 'bodymen';
 import { password as passwordAuth, token } from '../../services/passport';
-import { index, showMe, show, create, update, updatePassword, destroy } from './controller';
+import { uploader } from '../../services/multer';
+import { index, showMe, show, create, update, updatePassword, destroy, badges, updateAvatar } from './controller';
 import User, { schema } from './model';
 export {
   User,
@@ -10,7 +11,7 @@ export {
 };
 
 const router = new Router();
-const { email, password, name, picture } = schema.tree;
+const { email, password, name, picture, desc } = schema.tree;
 
 /**
  * @api {get} /users Retrieve users
@@ -64,7 +65,7 @@ router.get('/:id',
  * @apiError 409 Email already registered.
  */
 router.post('/',
-  body({ email, password, name, picture }),
+  body({ email, password, name, picture, desc }),
   create);
 
 /**
@@ -75,6 +76,7 @@ router.post('/',
  * @apiParam {String} access_token User access_token.
  * @apiParam {String} [name] User's name.
  * @apiParam {String} [picture] User's picture.
+ * @apiParam {String} [desc] User's description.
  * @apiSuccess {Object} user User's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 Current user or admin access only.
@@ -82,8 +84,25 @@ router.post('/',
  */
 router.put('/:id',
   token({ required: true }),
-  body({ name, picture }),
+  body({ name, picture, desc }),
   update);
+
+/**
+ * @api {post} /update/avatar Update user avatar
+ * @apiName UpdateUserAvatar
+ * @apiGroup User
+ * @apiPermission user
+ * @apiParam {String} access_token User access_token.
+ * @apiParam {File} [picture] User's new avatar
+ * @apiSuccess {Object} user User's data.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 401 Current user or admin access only.
+ * @apiError 404 User not found.
+ */
+router.post('/update/avatar',
+  token({ required: true }),
+  uploader.single('picture'),
+  updateAvatar);
 
 /**
  * @api {put} /users/:id/password Update password
@@ -114,5 +133,34 @@ router.put('/:id/password',
 router.delete('/:id',
   token({ required: true, roles: ['admin'] }),
   destroy);
+
+/**
+ * @api {post} /users/:id Add user badges
+ * @apiName AddBadges
+ * @apiGroup User
+ * @apiPermissions admin
+ * @apiParam {Array} badges User badges
+ * @apiSuccess (Success 201) 201 Created
+ * @apiError 401 Admin access only.
+ * @apiError 400 Error in body
+ * @apiError 404 User not found.
+ */
+router.post('/:id',
+  token({ required: true, roles: ['admin'] }),
+  body({
+    badges: [
+      {
+        name: {
+          type: String,
+          required: true
+        },
+        icon: {
+          type: String,
+          required: true
+        }
+      }
+    ]
+  }),
+  badges);
 
 export default router;

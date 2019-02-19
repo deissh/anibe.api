@@ -3,10 +3,7 @@ import user from './user';
 import auth from './auth';
 import passwordReset from './password-reset';
 import post from './post';
-import genre from './genre';
-import filter from './filter';
 import statusmonitor from 'express-status-monitor';
-import { master } from '../services/passport';
 const router = new Router();
 
 /**
@@ -36,8 +33,8 @@ router.use('/users', user);
 router.use('/auth', auth);
 router.use('/password-resets', passwordReset);
 router.use('/posts', post);
-router.use('/genres', genre);
-router.use('/filters', filter);
 router.use(statusmonitor());
+
+router.get('/', (req, res) => res.status(200).json({}));
 
 export default router;

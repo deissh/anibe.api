@@ -30,6 +30,7 @@ const config = {
     sendgridKey: requireProcessEnv('SENDGRID_KEY'),
     masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
+    cdnUrl: 'https://cdn.anibe.ru',
     mongo: {
       options: {
         db: {
@@ -42,7 +43,7 @@ const config = {
   test: { },
   development: {
     mongo: {
-      uri: 'mongodb://localhost/api-dev',
+      uri: 'mongodb://localhost/api',
       options: {
         debug: true
       }
