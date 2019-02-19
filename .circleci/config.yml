@@ -30,7 +30,7 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
 
-      - run: yarn install
+      - run: npm i --dev
 
       - save_cache:
           paths:
