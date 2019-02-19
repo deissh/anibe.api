@@ -121,7 +121,7 @@
     async-listener "^0.6.10"
     emitter-listener "^1.1.1"
 
-"@pm2/io@^3":
+"@pm2/io@^3", "@pm2/io@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@pm2/io/-/io-3.1.1.tgz#3fe902cc18bb96f6fbe9794504c514213c667e55"
   integrity sha512-DN66z5BwFUV2zojrtcdFE2gQa/cOWlMIkCrYGqUtLiG+K0ukS3ktDOksPnNKouhfWcwc2Nx+UtbQrDhvOPGIXQ==
