@@ -141,3 +141,27 @@ export const recommendations = ({ querymen: { query, select, cursor }, user }, r
     })
     .then(success(res))
     .catch(next);
+
+export const updateFCM = ({ bodymen: { body }, user }, res, next) =>
+  (async () => user)()
+    .then(notFound(res))
+    .then(user => {
+      return user.update({
+        '$push': {
+          fcm: body.token
+        }
+      });
+    })
+    .then(success(res, 204))
+    .catch(next);
+
+export const removeFCM = ({ user }, res, next) =>
+  (async () => user)()
+    .then(notFound(res))
+    .then(user => {
+      return user.update({
+        fcm: []
+      });
+    })
+    .then(success(res, 204))
+    .catch(next);
