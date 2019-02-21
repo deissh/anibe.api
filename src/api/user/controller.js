@@ -114,7 +114,7 @@ export const badges = ({ bodymen: { body }, params, user }, res, next) =>
     .then(success(res, 201))
     .catch(next);
 
-export const recommendations = ({ user }, res, next) =>
+export const recommendations = ({ querymen: { query, select, cursor }, user }, res, next) =>
   (async () => user)()
     .then(notFound(res))
     .then(() => {
@@ -124,13 +124,20 @@ export const recommendations = ({ user }, res, next) =>
       return user;
     })
     .then(() => {
-      const genres = [];
+      let genres = [];
 
       for (const post of user.favorite) {
-        genres.concat(post.genre);
+        genres = genres.concat(post.genre);
       }
 
-      return Post.find({ genre: { $in: genres } });
+      return Post.find({ ...query, genre: { $in: [...new Set(genres)] } }, select, cursor);
+    })
+    .then(posts => posts.map((post) => post.view()))
+    .then(posts => {
+      return {
+        count: posts.length,
+        rows: posts
+      };
     })
     .then(success(res))
     .catch(next);

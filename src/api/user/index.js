@@ -174,15 +174,7 @@ router.post('/:id',
  */
 router.get('/me/offer',
   token({ required: true }),
-  query({
-    status: {
-      String
-    },
-    type: String,
-    rating: {
-      type: Number
-    }
-  }),
+  query(),
   recommendations);
 
 export default router;
