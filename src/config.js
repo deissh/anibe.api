@@ -38,7 +38,7 @@ const config = {
         },
         useNewUrlParser: true
       },
-      uri: process.env.MONGODB_URI || 'mongodb://mongo/api'
+      uri: process.env.MONGODB_URI || 'mongodb://localhost/api'
     }
   },
   test: { },

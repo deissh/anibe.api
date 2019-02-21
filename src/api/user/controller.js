@@ -2,6 +2,7 @@ import { success, notFound } from '../../services/response/';
 import { User } from '.';
 import { sign } from '../../services/jwt';
 import { cdnUrl } from '../../config';
+import { Post } from '../post';
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   User.count(query)
@@ -111,4 +112,25 @@ export const badges = ({ bodymen: { body }, params, user }, res, next) =>
       return user.save();
     })
     .then(success(res, 201))
+    .catch(next);
+
+export const recommendations = ({ user }, res, next) =>
+  (async () => user)()
+    .then(notFound(res))
+    .then(() => {
+      if (user.favorite === []) {
+        return null;
+      }
+      return user;
+    })
+    .then(() => {
+      const genres = [];
+
+      for (const post of user.favorite) {
+        genres.concat(post.genre);
+      }
+
+      return Post.find({ genre: { $in: genres } });
+    })
+    .then(success(res))
     .catch(next);

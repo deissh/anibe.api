@@ -3,7 +3,7 @@ import { middleware as query } from 'querymen';
 import { middleware as body } from 'bodymen';
 import { password as passwordAuth, token } from '../../services/passport';
 import { uploader } from '../../services/multer';
-import { index, showMe, show, create, update, updatePassword, destroy, badges, updateAvatar } from './controller';
+import { index, showMe, show, create, update, updatePassword, destroy, badges, updateAvatar, recommendations } from './controller';
 import User, { schema } from './model';
 export {
   User,
@@ -162,5 +162,27 @@ router.post('/:id',
     ]
   }),
   badges);
+
+/**
+ * @api {get} /users/offer
+ * @apiName UserOffer
+ * @apiGroup User
+ * @paiPermissions user
+ * @apiSuccess {Number} count Total amount of posts.
+ * @apiSuccess {Object[]} rows List of posts.
+ * @apiError 401 User access only.
+ */
+router.get('/me/offer',
+  token({ required: true }),
+  query({
+    status: {
+      String
+    },
+    type: String,
+    rating: {
+      type: Number
+    }
+  }),
+  recommendations);
 
 export default router;
