@@ -1,13 +1,15 @@
-import { Router } from 'express'
-import { middleware as query } from 'querymen'
-import { middleware as body } from 'bodymen'
-import { token } from '../../services/passport'
-import { create, index, show, update, destroy } from './controller'
-import { schema } from './model'
-export News, { schema } from './model'
+import { Router } from 'express';
+import { middleware as query } from 'querymen';
+import { middleware as bodymen } from 'bodymen';
+import { token } from '../../services/passport';
+import { create, index, show, update, destroy } from './controller';
+import News, { schema } from './model';
 
-const router = new Router()
-const { title, body, author_id, preview, background, type } = schema.tree
+export { schema, News };
+
+const router = new Router();
+// eslint-disable-next-line camelcase
+const { title, body, author_id, preview, background, type } = schema.tree;
 
 /**
  * @api {post} /news Create news
@@ -28,8 +30,8 @@ const { title, body, author_id, preview, background, type } = schema.tree
  */
 router.post('/',
   token({ required: true, roles: ['admin'] }),
-  body({ title, body, author_id, preview, background, type }),
-  create)
+  bodymen({ title, body, author_id, preview, background, type }),
+  create);
 
 /**
  * @api {get} /news Retrieve news
@@ -42,7 +44,7 @@ router.post('/',
  */
 router.get('/',
   query(),
-  index)
+  index);
 
 /**
  * @api {get} /news/:id Retrieve news
@@ -53,7 +55,7 @@ router.get('/',
  * @apiError 404 News not found.
  */
 router.get('/:id',
-  show)
+  show);
 
 /**
  * @api {put} /news/:id Update news
@@ -74,8 +76,8 @@ router.get('/:id',
  */
 router.put('/:id',
   token({ required: true, roles: ['admin'] }),
-  body({ title, body, author_id, preview, background, type }),
-  update)
+  bodymen({ title, body, author_id, preview, background, type }),
+  update);
 
 /**
  * @api {delete} /news/:id Delete news
@@ -89,6 +91,6 @@ router.put('/:id',
  */
 router.delete('/:id',
   token({ required: true, roles: ['admin'] }),
-  destroy)
+  destroy);
 
-export default router
+export default router;

@@ -66,6 +66,10 @@ const userSchema = new Schema({
   willread: {
     type: Array,
     default: []
+  },
+  fcm: {
+    type: Array,
+    default: []
   }
 }, {
   timestamps: true

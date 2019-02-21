@@ -3,7 +3,7 @@ import { middleware as query } from 'querymen';
 import { middleware as body } from 'bodymen';
 import { password as passwordAuth, token } from '../../services/passport';
 import { uploader } from '../../services/multer';
-import { index, showMe, show, create, update, updatePassword, destroy, badges, updateAvatar, recommendations } from './controller';
+import { index, showMe, show, create, update, updatePassword, destroy, badges, updateAvatar, recommendations, updateFCM, removeFCM } from './controller';
 import User, { schema } from './model';
 export {
   User,
@@ -176,5 +176,37 @@ router.get('/me/offer',
   token({ required: true }),
   query(),
   recommendations);
+
+/**
+ * @api {put} /users/me/fcm Save FCM token
+ * @apiName SaveFCM
+ * @apiGroup User
+ * @apiPermission user
+ * @apiParam {String} access_token User access_token.
+ * @apiSuccess (Success 204) 204 No content.
+ * @apiError 401 User access only.
+ */
+router.put('/me/fcm',
+  token({ required: true }),
+  body({
+    token: {
+      type: String,
+      required: true
+    }
+  }),
+  updateFCM);
+
+/**
+ * @api {delete} /users/me/fcm Remove all tokens
+ * @apiName RemoveFCM
+ * @apiGroup User
+ * @apiPermission user
+ * @apiParam {String} access_token User access_token.
+ * @apiSuccess (Success 204) 204 No content.
+ * @apiError 401 User access only.
+ */
+router.delete('/me/fcm',
+  token({ required: true }),
+  removeFCM);
 
 export default router;
