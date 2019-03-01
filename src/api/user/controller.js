@@ -2,6 +2,7 @@ import { success, notFound } from '../../services/response/';
 import { User } from '.';
 import { sign } from '../../services/jwt';
 import { cdnUrl } from '../../config';
+import { Post } from '../post';
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   User.count(query)
@@ -111,4 +112,59 @@ export const badges = ({ bodymen: { body }, params, user }, res, next) =>
       return user.save();
     })
     .then(success(res, 201))
+    .catch(next);
+
+export const recommendations = ({ querymen: { query, select, cursor }, user }, res, next) =>
+  (async () => user)()
+    .then(notFound(res))
+    .then(() => {
+      if (user.favorite === []) {
+        return null;
+      }
+      return user;
+    })
+    .then(() => {
+      let genres = [];
+
+      for (const post of user.favorite) {
+        genres = genres.concat(post.genre);
+      }
+
+      return Post.find({ ...query, genre: { $in: [...new Set(genres)] } }, select, cursor);
+    })
+    .then(posts => posts.map((post) => post.view()))
+    .then(posts => {
+      return {
+        count: posts.length,
+        rows: posts
+      };
+    })
+    .then(success(res))
+    .catch(next);
+
+export const updateFCM = ({ bodymen: { body }, user }, res, next) =>
+  (async () => user)()
+    .then(notFound(res))
+    .then(user => {
+      return user.update({
+        '$push': {
+          fcm: body.new
+        },
+        '$pull': {
+          fcm: body.old
+        }
+      });
+    })
+    .then(success(res, 204))
+    .catch(next);
+
+export const removeFCM = ({ user }, res, next) =>
+  (async () => user)()
+    .then(notFound(res))
+    .then(user => {
+      return user.update({
+        fcm: []
+      });
+    })
+    .then(success(res, 204))
     .catch(next);
