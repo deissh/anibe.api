@@ -148,7 +148,10 @@ export const updateFCM = ({ bodymen: { body }, user }, res, next) =>
     .then(user => {
       return user.update({
         '$push': {
-          fcm: body.token
+          fcm: body.new
+        },
+        '$pull': {
+          fcm: body.old
         }
       });
     })

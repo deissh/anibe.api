@@ -189,7 +189,11 @@ router.get('/me/offer',
 router.put('/me/fcm',
   token({ required: true }),
   body({
-    token: {
+    old: {
+      type: String,
+      required: true
+    },
+    new: {
       type: String,
       required: true
     }
