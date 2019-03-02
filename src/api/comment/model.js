@@ -43,6 +43,7 @@ commentSchema.methods = {
       id: this.id,
       body: this.body,
       user: {
+        id: this.user.id,
         picture: this.user.picture,
         name: this.user.name,
         role: this.user.role
