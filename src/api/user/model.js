@@ -114,6 +114,10 @@ userSchema.methods = {
     return view;
   },
 
+  tokens () {
+    return this.fcm;
+  },
+
   authenticate (password) {
     return bcrypt.compare(password, this.password).then((valid) => valid ? this : false);
   }
