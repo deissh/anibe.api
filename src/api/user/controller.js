@@ -142,16 +142,33 @@ export const recommendations = ({ querymen: { query, select, cursor }, user }, r
     .then(success(res))
     .catch(next);
 
-export const updateFCM = ({ bodymen: { body }, user }, res, next) =>
+export const addFCM = ({ bodymen: { body }, user }, res, next) =>
   (async () => user)()
     .then(notFound(res))
     .then(user => {
       return user.update({
         '$push': {
-          fcm: body.new
-        },
+          fcm: body.token
+        }
+      });
+    })
+    .then(success(res, 204))
+    .catch(next);
+
+export const updateFCM = ({ bodymen: { body }, user }, res, next) =>
+  (async () => user)()
+    .then(notFound(res))
+    .then(() => {
+      return user.update({
         '$pull': {
           fcm: body.old
+        }
+      });
+    })
+    .then(() => {
+      return user.update({
+        '$push': {
+          fcm: body.new
         }
       });
     })
