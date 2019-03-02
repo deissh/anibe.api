@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import { isThursday } from 'date-fns';
 
 const commentSchema = new Schema({
   user: {
@@ -39,10 +40,14 @@ commentSchema.methods = {
       updatedAt: this.updatedAt
     };
 
-    return full ? {
-      ...view
-      // add properties for a full view
-    } : view;
+    return full ? view : {
+      body: this.body,
+      user: {
+        picture: this.user.picture,
+        name: this.user.name,
+        role: this.user.role
+      }
+    };
   }
 };
 

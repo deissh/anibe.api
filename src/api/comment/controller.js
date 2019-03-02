@@ -3,7 +3,7 @@ import { Comment } from '.';
 
 export const create = ({ user, bodymen: { body } }, res, next) =>
   Comment.create({ ...body, user })
-    .then((comment) => comment.view(true))
+    .then((comment) => comment.view())
     .then(success(res, 201))
     .catch(next);
 
@@ -14,11 +14,11 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
     .then(success(res))
     .catch(next);
 
-export const show = ({ params }, res, next) =>
-  Comment.findById(params.id)
+export const show = ({ querymen: { cursor }, params }, res, next) =>
+  Comment.find({ post_id: params.id }, null, cursor)
     .populate('user')
     .then(notFound(res))
-    .then((comment) => comment ? comment.view() : null)
+    .then((comments) => comments.map((comment) => comment.view()))
     .then(success(res))
     .catch(next);
 
