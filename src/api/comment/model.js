@@ -1,5 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import { isThursday } from 'date-fns';
 
 const commentSchema = new Schema({
   user: {
@@ -41,6 +40,7 @@ commentSchema.methods = {
     };
 
     return full ? view : {
+      id: this.id,
       body: this.body,
       user: {
         picture: this.user.picture,
