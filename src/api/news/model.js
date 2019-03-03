@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose';
 
 const newsSchema = new Schema({
   title: {
@@ -23,13 +23,13 @@ const newsSchema = new Schema({
   timestamps: true,
   toJSON: {
     virtuals: true,
-    transform: (obj, ret) => { delete ret._id }
+    transform: (obj, ret) => { delete ret._id; }
   }
-})
+});
 
 newsSchema.methods = {
   view (full) {
-    const view = {
+    return full ? {
       // simple view
       id: this.id,
       title: this.title,
@@ -40,16 +40,17 @@ newsSchema.methods = {
       type: this.type,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
-    }
-
-    return full ? {
-      ...view
-      // add properties for a full view
-    } : view
+    } : {
+      id: this.id,
+      title: this.title,
+      author_id: this.author_id,
+      preview: this.preview,
+      type: this.type
+    };
   }
-}
+};
 
-const model = mongoose.model('News', newsSchema)
+const model = mongoose.model('News', newsSchema);
 
-export const schema = model.schema
-export default model
+export const schema = model.schema;
+export default model;
