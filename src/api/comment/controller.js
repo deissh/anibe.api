@@ -17,12 +17,12 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
         comment
       };
     })
-    .then(({ user, comment }) => {
-      if (!user) {
+    .then(({ userToNotif, comment }) => {
+      if (!userToNotif) {
         return comment;
       }
 
-      for (let token of user.fcm) {
+      for (let token of userToNotif.fcm) {
         FCM.send({
           to: token,
           notification: {
