@@ -2,21 +2,31 @@ import mongoose, { Schema } from 'mongoose';
 
 const newsSchema = new Schema({
   title: {
+    required: true,
+    type: String
+  },
+  annotation: {
+    default: '',
     type: String
   },
   body: {
+    required: true,
     type: String
   },
   author_id: {
+    default: 'Anon',
     type: String
   },
   preview: {
+    required: true,
     type: String
   },
   background: {
+    default: '',
     type: String
   },
   type: {
+    default: 'Системные',
     type: String
   }
 }, {
@@ -43,6 +53,7 @@ newsSchema.methods = {
     } : {
       id: this.id,
       title: this.title,
+      annotation: this.annotation,
       author_id: this.author_id,
       preview: this.preview,
       type: this.type
