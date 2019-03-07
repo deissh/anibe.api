@@ -9,7 +9,7 @@ export { schema, News };
 
 const router = new Router();
 // eslint-disable-next-line camelcase
-const { title, body, author_id, preview, background, type } = schema.tree;
+const { title, body, author_id, preview, background, type, annotation } = schema.tree;
 
 /**
  * @api {post} /news Create news
@@ -17,12 +17,13 @@ const { title, body, author_id, preview, background, type } = schema.tree;
  * @apiGroup News
  * @apiPermission admin
  * @apiParam {String} access_token admin access token.
- * @apiParam title News's title.
- * @apiParam body News's body.
- * @apiParam author_id News's author_id.
- * @apiParam preview News's preview.
- * @apiParam background News's background.
- * @apiParam type News's type.
+ * @apiParam {String} title News's title.
+ * @apiParam {String} body News's body.
+ * @apiParam {String} author_id News's author_id.
+ * @apiParam {String} preview News's preview.
+ * @apiParam {String} background News's background.
+ * @apiParam {String} type News's type.
+ * @apiParam {String} annotation New`s annotation.
  * @apiSuccess {Object} news News's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 404 News not found.
@@ -30,7 +31,7 @@ const { title, body, author_id, preview, background, type } = schema.tree;
  */
 router.post('/',
   token({ required: true, roles: ['admin'] }),
-  bodymen({ title, body, author_id, preview, background, type }),
+  bodymen({ title, body, author_id, preview, background, type, annotation }),
   create);
 
 /**
@@ -69,6 +70,7 @@ router.get('/:id',
  * @apiParam preview News's preview.
  * @apiParam background News's background.
  * @apiParam type News's type.
+ * @apiParam annotation New`s annotation.
  * @apiSuccess {Object} news News's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 404 News not found.
@@ -76,7 +78,7 @@ router.get('/:id',
  */
 router.put('/:id',
   token({ required: true, roles: ['admin'] }),
-  bodymen({ title, body, author_id, preview, background, type }),
+  bodymen({ title, body, author_id, preview, background, type, annotation }),
   update);
 
 /**

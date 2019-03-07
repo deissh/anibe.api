@@ -6,7 +6,7 @@ const newsSchema = new Schema({
     type: String
   },
   annotation: {
-    default: '',
+    required: true,
     type: String
   },
   body: {
@@ -43,6 +43,7 @@ newsSchema.methods = {
       // simple view
       id: this.id,
       title: this.title,
+      annotation: this.annotation,
       body: this.body,
       author_id: this.author_id,
       preview: this.preview,
