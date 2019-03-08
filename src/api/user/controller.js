@@ -1,3 +1,4 @@
+/* eslint-disable no-return-await */
 import { success, notFound } from '../../services/response/';
 import { User } from '.';
 import { sign } from '../../services/jwt';
@@ -8,7 +9,7 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   User.count(query)
     .then(count => User.find(query, select, cursor)
       .then(users => ({
-        rows: users.map((user) => user.view()),
+        rows: users.map(async (user) => await user.view()),
         count
       }))
     )
@@ -18,18 +19,18 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
 export const show = ({ params }, res, next) =>
   User.findById(params.id)
     .then(notFound(res))
-    .then((user) => user ? user.view() : null)
+    .then(async (user) => user ? await user.view() : null)
     .then(success(res))
     .catch(next);
 
-export const showMe = ({ user }, res) =>
-  res.json(user.view(true));
+export const showMe = async ({ user }, res) =>
+  res.json(await user.view(true));
 
 export const create = ({ bodymen: { body } }, res, next) =>
   User.create(body)
     .then(user => {
       sign(user.id)
-        .then((token) => ({ token, user: user.view(true) }))
+        .then(async (token) => ({ token, user: await user.view(true) }))
         .then(success(res, 201));
     })
     .catch((err) => {
@@ -62,7 +63,7 @@ export const update = ({ bodymen: { body }, params, user }, res, next) =>
       return result;
     })
     .then((user) => user ? Object.assign(user, body).save() : null)
-    .then((user) => user ? user.view(true) : null)
+    .then(async (user) => user ? await user.view(true) : null)
     .then(success(res))
     .catch(next);
 
@@ -73,7 +74,7 @@ export const updateAvatar = ({ user, file }, res, next) =>
       user.picture = `${cdnUrl}/${file.key}`;
       return user.save();
     })
-    .then((user) => user ? user.view(true) : null)
+    .then(async (user) => user ? await user.view(true) : null)
     .then(success(res))
     .catch(next);
 
@@ -94,7 +95,7 @@ export const updatePassword = ({ bodymen: { body }, params, user }, res, next) =
       return result;
     })
     .then((user) => user ? user.set({ password: body.password }).save() : null)
-    .then((user) => user ? user.view(true) : null)
+    .then(async (user) => user ? await user.view(true) : null)
     .then(success(res))
     .catch(next);
 

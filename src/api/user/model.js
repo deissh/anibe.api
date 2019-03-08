@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import mongoose, { Schema } from 'mongoose';
 import mongooseKeywords from 'mongoose-keywords';
 import { env } from '../../config';
+import { OnlineUsers } from '../../services/keyv';
 
 const roles = ['user', 'admin', 'dev', 'tester'];
 
@@ -101,17 +102,40 @@ userSchema.pre('save', function (next) {
 });
 
 userSchema.methods = {
-  view (full) {
-    let view = {};
-    let fields = ['id', 'name', 'picture', 'desc', 'badges'];
+  async view (full) {
+    const isOnline = await OnlineUsers.get(this.id);
+    let view = {
+      id: this.id,
+      online: isOnline || false,
+      name: this.name,
+      picture: this.picture,
+      desc: this.desc,
+      badges: this.badges,
+      email: this.email,
+      role: this.role,
+      favorite: this.favorite,
+      thrown: this.thrown,
+      inprogress: this.inprogress,
+      readed: this.readed,
+      willread: this.willread,
+      createdAt: this.createdAt
+    };
+    // let fields = ['id', 'name', 'picture', 'desc', 'badges'];
 
-    if (full) {
-      fields = [...fields, 'email', 'role', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed', 'willread'];
-    }
+    // if (full) {
+    //   fields = [...fields, 'email', 'role', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed', 'willread'];
+    // }
 
-    fields.forEach((field) => { view[field] = this[field]; });
-
-    return view;
+    return full ? {
+      ...view
+    } : {
+      id: this.id,
+      online: isOnline || false,
+      name: this.name,
+      picture: this.picture,
+      role: this.role,
+      badges: this.badges
+    };
   },
 
   tokens () {

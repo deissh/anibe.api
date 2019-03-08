@@ -1,4 +1,3 @@
-import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import { mongo } from '../../config';
 
@@ -6,7 +5,7 @@ Object.keys(mongo.options).forEach((key) => {
   mongoose.set(key, mongo.options[key]);
 });
 
-mongoose.Promise = Promise;
+mongoose.Promise = global.Promise;
 /* istanbul ignore next */
 mongoose.Types.ObjectId.prototype.view = function () {
   return { id: this.toString() };
