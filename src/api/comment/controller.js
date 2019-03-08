@@ -25,7 +25,7 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
 
       await Notification.create({
         title: 'Новый ответ',
-        body: 'На ваш комментарий кто то недавно ответили',
+        body: 'На ваш комментарий кто то недавно ответил',
         user,
         target: userToNotif.id,
         picture: user.picture,
