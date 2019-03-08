@@ -46,7 +46,7 @@ const notificationSchema = new Schema({
 });
 
 notificationSchema.pre('save', async function (next) {
-  const user = await User.findById(this.user);
+  const user = await User.findById(this.target);
 
   for await (let token of user.fcm) {
     FCM.send({
