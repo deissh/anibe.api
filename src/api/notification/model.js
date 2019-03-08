@@ -53,7 +53,8 @@ notificationSchema.pre('save', async function (next) {
       to: token,
       notification: {
         title: this.title,
-        body: this.body
+        body: this.body,
+        sound: 'default'
       },
       data: {
         id: this.id,
