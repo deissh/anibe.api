@@ -51,6 +51,7 @@ notificationSchema.pre('save', async function (next) {
   for await (let token of user.fcm) {
     FCM.send({
       to: token,
+      priority: 'high',
       notification: {
         title: this.title,
         body: this.body,
@@ -65,7 +66,7 @@ notificationSchema.pre('save', async function (next) {
         url: this.url,
         user: this.user
       }
-    }, (e, res) => console.log(res));
+    }, (e, res) => console.log(e, res));
   }
   next();
 });
