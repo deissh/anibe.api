@@ -1,3 +1,4 @@
+/* eslint-disable no-return-await */
 import { success, notFound, authorOrAdmin } from '../../services/response/';
 import { Comment } from '.';
 import { User } from '../user';
@@ -5,15 +6,15 @@ import { FCM } from '../../services/firebase';
 
 export const create = ({ user, bodymen: { body } }, res, next) =>
   Comment.create({ ...body, user })
-    .then((comment) => comment.view())
+    .then(async (comment) => await comment.view())
     .then(async (comment) => {
       const reply = comment.body.match(/^\w+,/);
       if (!reply) {
-        return (null, comment);
+        return { userToNotif: null, comment };
       }
 
       return {
-        user: await User.findOne({ name: reply[0].slice(0, -1) }),
+        userToNotif: await User.findOne({ name: reply[0].slice(0, -1) }),
         comment
       };
     })
@@ -33,12 +34,12 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
             url: `comments/${body.post_id}`,
             message: 'На ваш комментарий кто то недавно ответили'
           }
-        }, (e, res) => e ? console.log(e) : '');
+        }, (e, d) => e ? console.log(e) : '');
       }
 
       return comment;
     })
-    .then(success(res, 201))
+    .then(success(res, 200))
     .catch(next);
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
