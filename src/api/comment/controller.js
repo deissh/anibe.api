@@ -6,7 +6,7 @@ import { Notification } from '../notification';
 
 export const create = ({ user, bodymen: { body } }, res, next) =>
   Comment.create({ ...body, user })
-    .then(async (comment) => await comment.view())
+    .then((comment) => comment.view())
     .then(async (comment) => {
       const reply = comment.body.match(/^\w+,/);
       if (!reply) {
@@ -59,7 +59,7 @@ export const update = ({ user, bodymen: { body }, params }, res, next) =>
     .then(notFound(res))
     .then(authorOrAdmin(res, user, 'user'))
     .then((comment) => comment ? Object.assign(comment, body).save() : null)
-    .then((comment) => comment ? comment.view(true) : null)
+    .then(async (comment) => comment ? comment.view(true) : null)
     .then(success(res))
     .catch(next);
 

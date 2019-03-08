@@ -27,11 +27,16 @@ const commentSchema = new Schema({
 });
 
 commentSchema.methods = {
-  async view (full) {
+  view (full) {
     const view = {
       // simple view
       id: this.id,
-      user: await this.user.view(false),
+      user: {
+        id: this.user.id,
+        picture: this.user.picture,
+        name: this.user.name,
+        role: this.user.role
+      },
       post_id: this.post_id,
       body: this.body,
       rating: this.rating,
