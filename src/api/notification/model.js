@@ -85,30 +85,6 @@ notificationSchema.methods = {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     };
-  },
-  async send () {
-    const user = await User.findById(this.user);
-
-    for await (let token of user.fcm) {
-      FCM.send({
-        to: token,
-        priority: 'high',
-        notification: {
-          title: this.title,
-          body: this.body,
-          sound: 'default'
-        },
-        data: {
-          id: this.id,
-          title: this.title,
-          body: this.body,
-          type: this.type,
-          picture: this.picture,
-          url: this.url,
-          user: this.user
-        }
-      }, (e, res) => console.log(e, res));
-    }
   }
 };
 
