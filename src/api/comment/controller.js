@@ -1,7 +1,7 @@
 import { success, notFound, authorOrAdmin } from '../../services/response/';
 import { Comment } from '.';
 import { User } from '../user';
-import { FCM } from '../../services/firebase';
+import { Notification } from '../notification';
 
 export const create = ({ user, bodymen: { body } }, res, next) =>
   Comment.create({ ...body, user })
@@ -22,19 +22,15 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
         return comment;
       }
 
-      for (let token of userToNotif.fcm) {
-        FCM.send({
-          to: token,
-          notification: {
-            title: 'Новый ответ',
-            body: 'На ваш комментарий кто то недавно ответили'
-          },
-          data: {
-            url: `comments/${body.post_id}`,
-            message: 'На ваш комментарий кто то недавно ответили'
-          }
-        }, (e, res) => e ? console.log(e) : '');
-      }
+      Notification.create({
+        title: 'Новый ответ',
+        body: 'На ваш комментарий кто то недавно ответили',
+        user,
+        target: userToNotif.id,
+        picture: user.picture,
+        type: 'comment',
+        url: `comments/${body.post_id}`
+      });
 
       return comment;
     })
