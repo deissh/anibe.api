@@ -23,7 +23,7 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
         return comment;
       }
 
-      await Notification.create({
+      const notif = await Notification.create({
         title: 'Новый ответ',
         body: 'На ваш комментарий кто то недавно ответил',
         user,
@@ -32,6 +32,7 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
         type: 'comment',
         url: `comments/${body.post_id}`
       });
+      await notif.send();
 
       return comment;
     })
