@@ -17,12 +17,12 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
         comment
       };
     })
-    .then(({ userToNotif, comment }) => {
+    .then(async ({ userToNotif, comment }) => {
       if (!userToNotif) {
         return comment;
       }
 
-      Notification.create({
+      await Notification.create({
         title: 'Новый ответ',
         body: 'На ваш комментарий кто то недавно ответили',
         user,
