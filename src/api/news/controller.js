@@ -8,7 +8,7 @@ export const create = ({ bodymen: { body } }, res, next) =>
     .catch(next);
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
-  News.count(query)
+  News.countDocuments(query)
     .then(count => News.find(query, select, cursor)
       .then((news) => ({
         count,

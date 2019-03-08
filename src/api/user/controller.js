@@ -6,7 +6,7 @@ import { cdnUrl } from '../../config';
 import { Post } from '../post';
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
-  User.count(query)
+  User.countDocuments(query)
     .then(count => User.find(query, select, cursor)
       .then(users => ({
         rows: users.map(async (user) => await user.view()),
