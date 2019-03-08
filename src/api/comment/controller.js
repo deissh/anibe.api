@@ -9,11 +9,11 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
     .then(async (comment) => {
       const reply = comment.body.match(/^\w+,/);
       if (!reply) {
-        return (null, comment);
+        return { userToNotif: null, comment };
       }
 
       return {
-        user: await User.findOne({ name: reply[0].slice(0, -1) }),
+        userToNotif: await User.findOne({ name: reply[0].slice(0, -1) }),
         comment
       };
     })
