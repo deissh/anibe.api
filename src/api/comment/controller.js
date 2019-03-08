@@ -31,7 +31,7 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
         picture: user.picture,
         type: 'comment',
         url: `comments/${body.post_id}`
-      }).save();
+      });
 
       return comment;
     })
