@@ -1,6 +1,8 @@
 import { success, notFound, Failed } from '../../services/response/';
 import { Post } from '.';
 
+import raccoon from 'raccoon';
+
 export const create = ({ bodymen: { body } }, res, next) =>
   Post.create(body)
     .then((post) => post.view(true))
@@ -80,6 +82,30 @@ export const addToList = ({ bodymen: { body }, params, user }, res, next) =>
       } else {
         return null;
       }
+    })
+    .then(async (data) => {
+      // убираем любые оценки для этой манги
+      await raccoon.unliked(user.id, params.id);
+      await raccoon.undisliked(user.id, params.id);
+
+      return user;
+    })
+    .then(async (user) => {
+      // добавляем в лайки или в дизлайки в зависимости от статуса
+      switch (body.status) {
+      case 'favorite':
+        console.log(user.id, params.id);
+
+        await raccoon.liked(user.id, params.id);
+        break;
+      case 'thrown':
+        await raccoon.disliked(user.id, params.id);
+        break;
+      default:
+        break;
+      }
+
+      return user;
     })
     .then((data) => {
       if (data) {

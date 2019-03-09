@@ -5,6 +5,9 @@ import { sign } from '../../services/jwt';
 import { cdnUrl } from '../../config';
 import { Post } from '../post';
 
+import raccoon from 'raccoon';
+import { Types } from 'mongoose';
+
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   User.countDocuments(query)
     .then(count => User.find(query, select, cursor)
@@ -115,7 +118,8 @@ export const badges = ({ bodymen: { body }, params, user }, res, next) =>
     .then(success(res, 201))
     .catch(next);
 
-export const recommendations = ({ querymen: { query, select, cursor }, user }, res, next) =>
+// warning: Old, not long support
+export const offer = ({ querymen: { query, select, cursor }, user }, res, next) =>
   (async () => user)()
     .then(notFound(res))
     .then(() => {
@@ -185,4 +189,24 @@ export const removeFCM = ({ user }, res, next) =>
       });
     })
     .then(success(res, 204))
+    .catch(next);
+
+export const recommendations = ({ user }, res, next) =>
+  (async () => user)()
+    .then(notFound(res))
+    .then(() => raccoon.recommendFor(user.id, 25))
+    .then((ids) => ids.map((v) => Types.ObjectId(v)))
+    .then((ids) => {
+      return Post.find({
+        _id: { $in: ids }
+      });
+    })
+    .then((posts) => posts.map((post) => post.view()))
+    .then((rows) => {
+      return {
+        count: rows.length,
+        rows
+      };
+    })
+    .then(success(res))
     .catch(next);
