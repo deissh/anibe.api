@@ -88,9 +88,9 @@ export const addToList = ({ bodymen: { body }, params, user }, res, next) =>
       await raccoon.unliked(user.id, params.id);
       await raccoon.undisliked(user.id, params.id);
 
-      return user;
+      return data;
     })
-    .then(async (user) => {
+    .then(async (data) => {
       // добавляем в лайки или в дизлайки в зависимости от статуса
       switch (body.status) {
       case 'favorite':
@@ -105,7 +105,7 @@ export const addToList = ({ bodymen: { body }, params, user }, res, next) =>
         break;
       }
 
-      return user;
+      return data;
     })
     .then((data) => {
       if (data) {
@@ -128,6 +128,13 @@ export const delFromList = ({ params, user }, res, next) =>
           willread: { id: post.id }
         }
       });
+    })
+    .then(async (data) => {
+      // убираем любые оценки для этой манги
+      await raccoon.unliked(user.id, params.id);
+      await raccoon.undisliked(user.id, params.id);
+
+      return data;
     })
     .then(success(res, 204))
     .catch(next);
