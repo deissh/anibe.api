@@ -11,8 +11,9 @@ import { Types } from 'mongoose';
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   User.countDocuments(query)
     .then(count => User.find(query, select, cursor)
+      .then(async users => await Promise.all(users.map(async (user) => await user.view())))
       .then(users => ({
-        rows: users.map(async (user) => await user.view()),
+        rows: users,
         count
       }))
     )
