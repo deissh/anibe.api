@@ -15,11 +15,7 @@ describe('view', () => {
     expect(view.id).toBe(comment.id);
     expect(typeof view.user).toBe('object');
     expect(view.user.id).toBe(user.id);
-    expect(view.post_id).toBe(comment.post_id);
     expect(view.body).toBe(comment.body);
-    expect(view.rating).toBe(comment.rating);
-    expect(view.createdAt).toBeTruthy();
-    expect(view.updatedAt).toBeTruthy();
   });
 
   it('returns full view', () => {

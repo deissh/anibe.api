@@ -38,7 +38,12 @@ reportSchema.methods = {
     const view = {
       // simple view
       id: this.id,
-      user: this.user.view(full),
+      user: {
+        id: this.user.id,
+        picture: this.user.picture,
+        name: this.user.name,
+        role: this.user.role
+      },
       name: this.name,
       body: this.body,
       post_id: this.post_id,

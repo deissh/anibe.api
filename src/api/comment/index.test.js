@@ -17,11 +17,11 @@ beforeEach(async () => {
   comment = await Comment.create({ post_id: '133', body: 'sometext', user });
 });
 
-test('POST /comments 201 (user)', async () => {
+test('POST /comments 200 (user)', async () => {
   const { status, body } = await request(app())
     .post(`${apiRoot}`)
     .send({ access_token: userSession, post_id: 'test', body: 'test' });
-  expect(status).toBe(201);
+  expect(status).toBe(200);
   expect(typeof body).toEqual('object');
   expect(body.post_id).toEqual('test');
   expect(body.body).toEqual('test');
@@ -44,33 +44,26 @@ test('GET /comments 200 (user)', async () => {
   expect(typeof body[0].user).toEqual('object');
 });
 
+test('GET /comments/:post_id 200 (user)', async () => {
+  const { status, body } = await request(app())
+    .get(`${apiRoot}/${comment.post_id}`)
+    .query({ access_token: userSession });
+  expect(status).toBe(200);
+  expect(Array.isArray(body)).toBe(true);
+  expect(typeof body[0].user).toEqual('object');
+});
+
+test('GET /comments/:post_id 404 (user)', async () => {
+  const { status } = await request(app())
+    .get(`${apiRoot}/11111111`)
+    .query({ access_token: userSession });
+  expect(status).toBe(404);
+});
+
 test('GET /comments 401', async () => {
   const { status } = await request(app())
     .get(`${apiRoot}`);
   expect(status).toBe(401);
-});
-
-test('GET /comments/:id 200 (user)', async () => {
-  const { status, body } = await request(app())
-    .get(`${apiRoot}/${comment.id}`)
-    .query({ access_token: userSession });
-  expect(status).toBe(200);
-  expect(typeof body).toEqual('object');
-  expect(body.id).toEqual(comment.id);
-  expect(typeof body.user).toEqual('object');
-});
-
-test('GET /comments/:id 401', async () => {
-  const { status } = await request(app())
-    .get(`${apiRoot}/${comment.id}`);
-  expect(status).toBe(401);
-});
-
-test('GET /comments/:id 404 (user)', async () => {
-  const { status } = await request(app())
-    .get(apiRoot + '/123456789098765432123456')
-    .query({ access_token: userSession });
-  expect(status).toBe(404);
 });
 
 test('PUT /comments/:id 200 (user)', async () => {
