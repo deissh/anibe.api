@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: api
+  name: api-controller
+  namespace: anibe
+spec:
+  replicas: 2
+  selector:
+    name: api
+  template:
+    metadata:
+      labels:
+        name: api
+    spec:
+      containers:
+      - image: aniberu/api
+        name: api
+        ports:
+        - containerPort: 8080
+          name: http-server
+        env:
+        - name: NODE_ENV
+          value: production
+        - name: MONGODB_URI
+          value: mongodb://mongo:27017/api
+        - name: RACCOON_REDIS_URL
+          value: redis
+        - name: AWS_S3_BUCKET_NAME
+          value: ru.cdn
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: anibe-api-secrets
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: anibe-api-secrets
+              key: AWS_SECRET_ACCESS_KEY
+        - name: FIREBASE_FCM_KEY
+          valueFrom:
+            secretKeyRef:
+              name: anibe-api-secrets
+              key: FIREBASE_FCM_KEY
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: anibe-api-secrets
+              key: JWT_SECRET
+        - name: MASTER_KEY
+          valueFrom:
+            secretKeyRef:
+              name: anibe-api-secrets
+              key: MASTER_KEY
+        - name: SENDGRID_KEY
+          valueFrom:
+            secretKeyRef:
+              name: anibe-api-secrets
+              key: SENDGRID_KEY
