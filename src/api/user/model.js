@@ -5,7 +5,7 @@ import mongooseKeywords from 'mongoose-keywords';
 import { env } from '../../config';
 import { OnlineUsers } from '../../services/keyv';
 
-const roles = ['user', 'admin', 'dev', 'tester'];
+const roles = ['user', 'admin', 'moder', 'tester'];
 
 const userSchema = new Schema({
   email: {

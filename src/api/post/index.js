@@ -10,7 +10,7 @@ export {
 };
 
 const router = new Router();
-const { name, annotation, description, genre, type, rating, status, date, author, cover, chapters, pages, reading, episodes } = schema.tree;
+const { name, annotation, description, genre, type, rating, status, date, author, cover, chapters, pages, reading, episodes, readmanga } = schema.tree;
 
 /**
  * @api {post} /posts Create post
@@ -32,14 +32,15 @@ const { name, annotation, description, genre, type, rating, status, date, author
  * @apiParam {String} pages Post's pages.
  * @apiParam {String} reading Post's reading.
  * @apiParam episodes Post's episodes.
+ * @apiParam {String} ReadManga URL
  * @apiSuccess {Object} post Post's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 404 Post not found.
  * @apiError 401 admin access only.
  */
 router.post('/',
-  token({ required: true, roles: ['admin'] }),
-  body({ name, annotation, description, genre, type, rating, status, date, author, cover, chapters, pages, reading, episodes }),
+  token({ required: true, roles: ['admin', 'moder'] }),
+  body({ name, annotation, description, genre, type, rating, status, date, author, cover, chapters, pages, reading, episodes, readmanga }),
   create);
 
 /**
@@ -62,6 +63,9 @@ router.get('/',
     type: String,
     rating: {
       type: Number
+    },
+    readmanga: {
+      type: String
     }
   }),
   index);

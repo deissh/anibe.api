@@ -58,6 +58,11 @@ const postSchema = new Schema({
   episodes: {
     type: Object,
     default: {}
+  },
+  // используеться для хранения ссылки на оригинал
+  readmanga: {
+    type: String,
+    default: ''
   }
 }, {
   timestamps: true,
@@ -88,6 +93,7 @@ postSchema.methods = {
       pages: this.pages,
       reading: this.reading,
       episodes: this.episodes,
+      readmanga: this.readmanga,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     };
