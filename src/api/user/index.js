@@ -11,7 +11,7 @@ export {
 };
 
 const router = new Router();
-const { email, password, name, picture, desc } = schema.tree;
+const { email, password, name, picture, desc, enablefcm } = schema.tree;
 
 /**
  * @api {get} /users Retrieve users
@@ -77,6 +77,7 @@ router.post('/',
  * @apiParam {String} [name] User's name.
  * @apiParam {String} [picture] User's picture.
  * @apiParam {String} [desc] User's description.
+ * @apiParam {Boolean} [enablefcm] Enable notifications by FCM
  * @apiSuccess {Object} user User's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 Current user or admin access only.
@@ -84,7 +85,7 @@ router.post('/',
  */
 router.put('/:id',
   token({ required: true }),
-  body({ name, picture, desc }),
+  body({ name, picture, desc, enablefcm }),
   update);
 
 /**

@@ -71,6 +71,10 @@ const userSchema = new Schema({
   fcm: {
     type: Array,
     default: []
+  },
+  enablefcm: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true
@@ -113,6 +117,7 @@ userSchema.methods = {
       badges: this.badges,
       email: this.email,
       role: this.role,
+      enablefcm: this.enablefcm,
       favorite: this.favorite,
       thrown: this.thrown,
       inprogress: this.inprogress,

@@ -23,6 +23,11 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
         return comment;
       }
 
+      // у пользователя выключены уведомления
+      if (!userToNotif.enablefcm) {
+        return comment;
+      }
+
       await Notification.create({
         title: 'Новый ответ',
         body: 'На ваш комментарий кто то недавно ответил',
