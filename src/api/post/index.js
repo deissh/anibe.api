@@ -57,6 +57,11 @@ router.get('/',
     genre: [{
       type: String
     }],
+    // exclude: {
+    //   type: [String],
+    //   paths: ['genre'],
+    //   operator: '$not'
+    // },
     status: {
       String
     },
