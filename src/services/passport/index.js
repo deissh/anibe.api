@@ -5,7 +5,7 @@ import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { jwtSecret, masterKey } from '../../config';
 import User, { schema } from '../../api/user/model';
-import { OnlineUsers } from '../keyv';
+import { asyncRedisClient } from '../redis';
 
 export const password = () => (req, res, next) =>
   passport.authenticate('password', { session: false }, (err, user, info) => {
@@ -16,7 +16,7 @@ export const password = () => (req, res, next) =>
     }
     req.logIn(user, { session: false }, (err) => {
       if (err) return res.status(401).end();
-      OnlineUsers.set(user.id, true, 900000); // 900000 = 15 минутам
+      asyncRedisClient.set(user.id, '1', 'EX', 900000); // 900000 = 15 минутам
       next();
     });
   })(req, res, next);
@@ -31,7 +31,7 @@ export const token = ({ required, roles = User.roles } = {}) => (req, res, next)
     }
     req.logIn(user, { session: false }, (err) => {
       if (err) return res.status(401).end();
-      OnlineUsers.set(user.id, true, 900000); // 900000 = 15 минутам
+      asyncRedisClient.set(user.id, '1', 'EX', 900000); // 900000 = 15 минутам
       next();
     });
   })(req, res, next);

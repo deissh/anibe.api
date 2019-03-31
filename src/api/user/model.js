@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import mongoose, { Schema } from 'mongoose';
 import mongooseKeywords from 'mongoose-keywords';
 import { env } from '../../config';
-import { OnlineUsers } from '../../services/keyv';
+import { asyncRedisClient } from '../../services/redis';
 
 const roles = ['user', 'admin', 'moder', 'tester'];
 
@@ -107,7 +107,7 @@ userSchema.pre('save', function (next) {
 
 userSchema.methods = {
   async view (full) {
-    const isOnline = await OnlineUsers.get(this.id);
+    const isOnline = await asyncRedisClient.get(this.id);
     let view = {
       id: this.id,
       online: isOnline || false,

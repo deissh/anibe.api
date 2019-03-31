@@ -2,6 +2,7 @@ import mongoose, {
   Schema
 } from 'mongoose';
 import mongooseKeywords from 'mongoose-keywords';
+import { asyncRedisClient } from '../../services/redis';
 
 const postSchema = new Schema({
   name: {
@@ -115,6 +116,20 @@ postSchema.methods = {
 
 postSchema.plugin(mongooseKeywords, { paths: ['name', 'annotation'] });
 const model = mongoose.model('Post', postSchema);
+
+postSchema.pre('save', async function (next) {
+  await asyncRedisClient.publish(`post.${this.id}.update`, JSON.stringify({
+    id: this.id,
+    name: this.name,
+    cover: this.cover,
+    genre: this.genre,
+    type: this.type,
+    rating: this.rating,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt
+  }));
+  next();
+});
 
 export const schema = model.schema;
 export default model;

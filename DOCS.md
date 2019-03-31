@@ -17,6 +17,10 @@
 	- [Retrieve news](#retrieve-news)
 	- [Update news](#update-news)
 	
+- [Notification](#notification)
+	- [Create notification](#create-notification)
+	- [Retrieve notifications](#retrieve-notifications)
+	
 - [PasswordReset](#passwordreset)
 	- [Send email](#send-email)
 	- [Submit password](#submit-password)
@@ -50,6 +54,7 @@
 	- [Update password](#update-password)
 	- [Update user](#update-user)
 	- [Update user avatar](#update-user-avatar)
+	- [](#)
 	- [](#)
 	
 
@@ -140,12 +145,13 @@
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>admin access token.</p>							|
-| title			| 			|  <p>News's title.</p>							|
-| body			| 			|  <p>News's body.</p>							|
-| author_id			| 			|  <p>News's author_id.</p>							|
-| preview			| 			|  <p>News's preview.</p>							|
-| background			| 			|  <p>News's background.</p>							|
-| type			| 			|  <p>News's type.</p>							|
+| title			| String			|  <p>News's title.</p>							|
+| body			| String			|  <p>News's body.</p>							|
+| author_id			| String			|  <p>News's author_id.</p>							|
+| preview			| String			|  <p>News's preview.</p>							|
+| background			| String			|  <p>News's background.</p>							|
+| type			| String			|  <p>News's type.</p>							|
+| annotation			| String			|  <p>New`s annotation.</p>							|
 
 ## Delete news
 
@@ -195,6 +201,46 @@
 | preview			| 			|  <p>News's preview.</p>							|
 | background			| 			|  <p>News's background.</p>							|
 | type			| 			|  <p>News's type.</p>							|
+| annotation			| 			|  <p>New`s annotation.</p>							|
+
+# Notification
+
+## Create notification
+
+
+
+	POST /notifications
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>admin access token.</p>							|
+| target			| String			|  <p>target user id</p>							|
+| title			| 			|  <p>Notification's title.</p>							|
+| body			| 			|  <p>Notification's body.</p>							|
+| type			| 			|  <p>Notification's type.</p>							|
+| picture			| 			|  <p>Notification's picture.</p>							|
+| url			| 			|  <p>Notification's url.</p>							|
+
+## Retrieve notifications
+
+
+
+	GET /notifications
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
 # PasswordReset
 
@@ -273,6 +319,7 @@
 | pages			| String			|  <p>Post's pages.</p>							|
 | reading			| String			|  <p>Post's reading.</p>							|
 | episodes			| 			|  <p>Post's episodes.</p>							|
+| ReadManga			| String			|  <p>URL</p>							|
 
 ## 
 
@@ -570,6 +617,7 @@
 | name			| String			| **optional** <p>User's name.</p>							|
 | picture			| String			| **optional** <p>User's picture.</p>							|
 | desc			| String			| **optional** <p>User's description.</p>							|
+| enablefcm			| Boolean			| **optional** <p>Enable notifications by FCM</p>							|
 
 ## Update user avatar
 
@@ -590,6 +638,13 @@
 
 
 	GET /users/offer
+
+
+## 
+
+
+
+	GET /users/recommendations
 
 
 
