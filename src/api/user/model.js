@@ -41,10 +41,7 @@ const userSchema = new Schema({
   },
   badges: {
     type: Array,
-    default: [{
-      icon: 'bug',
-      name: 'Tester'
-    }]
+    default: []
   },
   // любимые
   favorite: {
