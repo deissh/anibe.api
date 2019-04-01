@@ -7,14 +7,14 @@ import routes, { Notification } from '.';
 
 const app = () => express(apiRoot, routes);
 
-let userSession, adminSession, notification, user, admin;
+let userSession, adminSession, user, admin;
 
 beforeEach(async () => {
   user = await User.create({ email: 'a@a.com', password: '123456' });
   admin = await User.create({ email: 'c@c.com', password: '123456', role: 'admin' });
   userSession = signSync(user.id);
   adminSession = signSync(admin.id);
-  notification = await Notification.create({ target: admin.id, title: 'test', body: 'test body', type: 'system', picture: 'https://vk.com/favicon.ico', url: '', user });
+  await Notification.create({ target: admin.id, title: 'test', body: 'test body', type: 'system', picture: 'https://vk.com/favicon.ico', url: '', user });
 });
 
 test('POST /notifications 201 (admin)', async () => {
