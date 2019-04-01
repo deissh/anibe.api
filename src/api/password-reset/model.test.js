@@ -9,15 +9,15 @@ beforeEach(async () => {
 });
 
 describe('view', () => {
-  it('returns simple view', () => {
-    const view = passwordReset.view();
+  it('returns simple view', async () => {
+    const view = await passwordReset.view();
     expect(view.token).toBe(passwordReset.token);
     expect(typeof view.user).toBe('object');
   });
 
-  it('returns full view', () => {
-    const view = passwordReset.view(true);
+  it('returns full view', async () => {
+    const view = await passwordReset.view(true);
     expect(view.token).toBe(passwordReset.token);
-    expect(view.user).toEqual(passwordReset.user.view(true));
+    expect(view.user).toEqual(await passwordReset.user.view(true));
   });
 });

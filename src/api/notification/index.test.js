@@ -7,11 +7,11 @@ import routes, { Notification } from '.';
 
 const app = () => express(apiRoot, routes);
 
-let userSession, adminSession, notification;
+let userSession, adminSession, notification, user, admin;
 
 beforeEach(async () => {
-  const user = await User.create({ email: 'a@a.com', password: '123456' });
-  const admin = await User.create({ email: 'c@c.com', password: '123456', role: 'admin' });
+  user = await User.create({ email: 'a@a.com', password: '123456' });
+  admin = await User.create({ email: 'c@c.com', password: '123456', role: 'admin' });
   userSession = signSync(user.id);
   adminSession = signSync(admin.id);
   notification = await Notification.create({ target: admin.id, title: 'test', body: 'test body', type: 'system', picture: 'https://vk.com/favicon.ico', url: '', user });
@@ -20,14 +20,22 @@ beforeEach(async () => {
 test('POST /notifications 201 (admin)', async () => {
   const { status, body } = await request(app())
     .post(`${apiRoot}`)
-    .send({ access_token: adminSession, title: 'test', body: 'test', type: 'test', picture: 'test', url: 'test' });
+    .send({
+      access_token: adminSession,
+      target: admin.id,
+      title: 'test',
+      body: 'test body',
+      type: 'system',
+      picture: 'https://vk.com/favicon.ico',
+      url: ''
+    });
   expect(status).toBe(201);
   expect(typeof body).toEqual('object');
   expect(body.title).toEqual('test');
-  expect(body.body).toEqual('test');
-  expect(body.type).toEqual('test');
-  expect(body.picture).toEqual('test');
-  expect(body.url).toEqual('test');
+  expect(body.body).toEqual('test body');
+  expect(body.type).toEqual('system');
+  expect(body.picture).toEqual('https://vk.com/favicon.ico');
+  expect(body.url).toEqual('');
 });
 
 test('POST /notifications 401 (user)', async () => {

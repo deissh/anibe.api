@@ -1,3 +1,4 @@
+/* eslint-disable no-return-await */
 import { success, notFound } from '../../services/response/';
 import { sendMail } from '../../services/sendgrid';
 import { PasswordReset } from '.';
@@ -28,7 +29,7 @@ export const show = ({ params: { token } }, res, next) =>
   PasswordReset.findOne({ token })
     .populate('user')
     .then(notFound(res))
-    .then((reset) => reset ? reset.view(true) : null)
+    .then(async (reset) => reset ? await reset.view(true) : null)
     .then(success(res))
     .catch(next);
 
@@ -41,7 +42,7 @@ export const update = ({ params: { token }, bodymen: { body: { password } } }, r
       const { user } = reset;
       return user.set({ password }).save()
         .then(() => PasswordReset.remove({ user }))
-        .then(() => user.view(true));
+        .then(async () => await user.view(true));
     })
     .then(success(res))
     .catch(next);

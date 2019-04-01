@@ -14,21 +14,40 @@ beforeEach(async () => {
   const admin = await User.create({ email: 'c@c.com', password: '123456', role: 'admin' });
   userSession = signSync(user.id);
   adminSession = signSync(admin.id);
-  news = await News.create({});
+  news = await News.create({
+    title: 'Test news',
+    annotation: 'some short description',
+    body: 'some righ text',
+    author_id: 'Anon',
+    preview: 'https://cdn.anibe.ru/avatarts/someuser/picture.png',
+    background: 'https://cdn.anibe.ru/avatarts/someuser/picture2.png',
+    type: 'Приложение'
+  });
 });
 
 test('POST /news 201 (admin)', async () => {
   const { status, body } = await request(app())
     .post(`${apiRoot}`)
-    .send({ access_token: adminSession, title: 'test', body: 'test', author_id: 'test', preview: 'test', background: 'test', type: 'test' });
+    .send({
+      access_token: adminSession,
+      title: 'Test news v2',
+      annotation: 'some short description',
+      body: 'some righ text',
+      author_id: 'Anon',
+      preview: 'https://cdn.anibe.ru/avatarts/someuser/picture.png',
+      background: 'https://cdn.anibe.ru/avatarts/someuser/picture2.png',
+      type: 'Приложение'
+    });
+
   expect(status).toBe(201);
   expect(typeof body).toEqual('object');
-  expect(body.title).toEqual('test');
-  expect(body.body).toEqual('test');
-  expect(body.author_id).toEqual('test');
-  expect(body.preview).toEqual('test');
-  expect(body.background).toEqual('test');
-  expect(body.type).toEqual('test');
+  expect(body.title).toEqual('Test news v2');
+  expect(body.body).toEqual('some righ text');
+  expect(body.annotation).toEqual('some short description');
+  expect(body.author_id).toEqual('Anon');
+  expect(body.preview).toEqual('https://cdn.anibe.ru/avatarts/someuser/picture.png');
+  expect(body.background).toEqual('https://cdn.anibe.ru/avatarts/someuser/picture2.png');
+  expect(body.type).toEqual('Приложение');
 });
 
 test('POST /news 401 (user)', async () => {
@@ -69,16 +88,25 @@ test('GET /news/:id 404', async () => {
 test('PUT /news/:id 200 (admin)', async () => {
   const { status, body } = await request(app())
     .put(`${apiRoot}/${news.id}`)
-    .send({ access_token: adminSession, title: 'test', body: 'test', author_id: 'test', preview: 'test', background: 'test', type: 'test' });
+    .send({
+      access_token: adminSession,
+      title: 'Test news v2',
+      annotation: 'some short description',
+      body: 'some righ text',
+      author_id: 'Anon',
+      preview: 'https://cdn.anibe.ru/avatarts/someuser/picture.png',
+      background: 'https://cdn.anibe.ru/avatarts/someuser/picture2.png',
+      type: 'Приложение'
+    });
   expect(status).toBe(200);
   expect(typeof body).toEqual('object');
-  expect(body.id).toEqual(news.id);
-  expect(body.title).toEqual('test');
-  expect(body.body).toEqual('test');
-  expect(body.author_id).toEqual('test');
-  expect(body.preview).toEqual('test');
-  expect(body.background).toEqual('test');
-  expect(body.type).toEqual('test');
+  expect(body.title).toEqual('Test news v2');
+  expect(body.body).toEqual('some righ text');
+  expect(body.annotation).toEqual('some short description');
+  expect(body.author_id).toEqual('Anon');
+  expect(body.preview).toEqual('https://cdn.anibe.ru/avatarts/someuser/picture.png');
+  expect(body.background).toEqual('https://cdn.anibe.ru/avatarts/someuser/picture2.png');
+  expect(body.type).toEqual('Приложение');
 });
 
 test('PUT /news/:id 401 (user)', async () => {
@@ -96,7 +124,7 @@ test('PUT /news/:id 401', async () => {
 
 test('PUT /news/:id 404 (admin)', async () => {
   const { status } = await request(app())
-    .put(apiRoot + '/123456789098765432123456')
+    .put(apiRoot + '/news/123456789098765432123456')
     .send({ access_token: adminSession, title: 'test', body: 'test', author_id: 'test', preview: 'test', background: 'test', type: 'test' });
   expect(status).toBe(404);
 });

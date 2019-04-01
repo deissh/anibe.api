@@ -46,7 +46,7 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   Comment.find(query, select, cursor)
     .populate('user')
-    .then((comments) => comments.map((comment) => comment.view()))
+    .then((comments) => comments.map(async (comment) => await comment.view()))
     .then(success(res))
     .catch(next);
 
@@ -54,7 +54,7 @@ export const show = ({ querymen: { cursor }, params }, res, next) =>
   Comment.find({ post_id: params.id }, null, cursor)
     .populate('user')
     .then(notFound(res))
-    .then((comments) => comments.map((comment) => comment.view()))
+    .then(async (comments) => await Promise.all(comments.map(async (comment) => await comment.view())))
     .then(success(res))
     .catch(next);
 
@@ -64,7 +64,7 @@ export const update = ({ user, bodymen: { body }, params }, res, next) =>
     .then(notFound(res))
     .then(authorOrAdmin(res, user, 'user'))
     .then((comment) => comment ? Object.assign(comment, body).save() : null)
-    .then(async (comment) => comment ? comment.view(true) : null)
+    .then(async (comment) => comment ? await comment.view(true) : null)
     .then(success(res))
     .catch(next);
 
