@@ -1,4 +1,6 @@
 version: 2
+orbs:
+  codecov: codecov/codecov@1.0.2
 jobs:
   lint:
     docker:
@@ -40,6 +42,9 @@ jobs:
       - run:
           command: yarn test --coverage
           name: "Unit test"
+
+      - codecov/upload:
+          file: {{ coverage_report_filepath }}
 
   build:
     docker:
@@ -89,12 +94,13 @@ workflows:
   build_and_test:
     jobs:
       - lint
-      # - test:
-      #     requires:
-      #       - lint
+      - test:
+          requires:
+            - lint
       - deploy:
           requires:
             - lint
+            - test
             # - test
           filters:
             branches:
