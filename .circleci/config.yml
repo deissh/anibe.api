@@ -68,7 +68,7 @@ jobs:
       # - store_test_results:
       #   path: coverage
 
-  deploy:
+  deptoy2server:
     branches:
       only:
         - master
@@ -93,7 +93,7 @@ workflows:
       # - test:
       #     requires:
       #       - lint
-      - deploy:
+      - deptoy2server:
           requires:
             - lint
             # - test
