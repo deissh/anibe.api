@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "pm2-runtime start deploy/ecosystem.config.js",
-    "test": "jest",
+    "test": "jest && codecov",
     "coverage": "npm test -- --coverage",
     "postcoverage": "opn coverage/lcov-report/index.html",
     "dev": "nodemon -i \"*.test.js\" .",
@@ -16,13 +16,16 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "setupTestFrameworkScriptFile": "<rootDir>/test/setup.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/test/setup.js",
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   },
   "devDependencies": {
     "apidoc": "^0.17.6",
     "apidoc-markdown": "^0.2.0",
     "babel-eslint": "^8.0.1",
     "babel-jest": "^20.0.3",
+    "codecov": "^3.2.0",
     "cross-env": "^5.0.5",
     "dotenv-safe": "^4.0.3",
     "eslint": "^4.19.1",
