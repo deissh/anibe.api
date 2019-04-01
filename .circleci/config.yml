@@ -3,7 +3,7 @@ jobs:
 
   lint:
     docker:
-      - image: circleci/node:8.9.0
+      - image: circleci/node:10
     working_dirictory: ~/repo
 
     steps:
@@ -51,7 +51,7 @@ jobs:
 
   build:
     docker:
-      - image: circleci/node:8.9.0
+      - image: circleci/node:10
     working_dirictory: ~/repo
 
     steps:
