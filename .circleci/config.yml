@@ -89,9 +89,9 @@ workflows:
   build_and_test:
     jobs:
       - lint
-      - test:
-          requires:
-            - lint
+      # - test:
+      #     requires:
+      #       - lint
       - deploy:
           requires:
             - lint
