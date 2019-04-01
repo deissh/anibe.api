@@ -36,18 +36,19 @@ jobs:
 
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run: yarn install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run:
-          command: yarn test --coverage
-          name: "Unit test"
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ checksum "package.json" }}
+      #       - v1-dependencies-
+      # - run: yarn install
+      # - run: MONGOMS_VERSION=4.0.0 yarn add mongodb-memory-server --dev
+      # - save_cache:
+      #     paths:
+      #       - node_modules
+      #     key: v1-dependencies-{{ checksum "package.json" }}
+      # - run:
+      #     command: yarn test --coverage
+      #     name: "Unit test"
 
   build:
     docker:
