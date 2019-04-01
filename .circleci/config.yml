@@ -26,6 +26,15 @@ jobs:
 
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run:
           command: yarn test --coverage
           name: "Unit test"
@@ -68,15 +77,6 @@ jobs:
 
 workflows:
   version: 2
-  build_and_test:
-    jobs:
-      - build
-      - lint:
-          requires:
-            - build
-      - test:
-          requires:
-            - lint
   build-test-and-deploy:
     jobs:
       - build
@@ -88,6 +88,9 @@ workflows:
             - lint
       - hold: # <<< A job that will require manual approval in the CircleCI web application.
           type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
+          filters:
+            branches:
+              only: master
           requires: # We only run the "hold" job when test2 has succeeded
            - lint
            - test
