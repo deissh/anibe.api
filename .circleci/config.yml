@@ -47,7 +47,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run:
-          command: yarn test --coverage
+          command: yarn test
           name: "Unit test"
 
   build:
