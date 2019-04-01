@@ -78,6 +78,7 @@ workflows:
             - checkout
       - lint:
           requires:
+            - build
             - checkout
       - test:
           requires:
@@ -91,6 +92,7 @@ workflows:
             - checkout
       - lint:
           requires:
+            - build
             - checkout
       - test:
           requires:
