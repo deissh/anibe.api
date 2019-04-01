@@ -68,16 +68,15 @@ jobs:
       # - store_test_results:
       #   path: coverage
 
-  deptoy2server:
-    branches:
-      only:
-        - master
+  deploy:
+    machine:
+      enabled: true
     working_directory: ~/repo
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "yo:ur:ss:hf:in:ge:rp:ri:nt"
+            - "19:9a:bf:7f:ce:ea:3a:15:01:5f:e0:a6:16:23:b3:95"
       - run:
           name: fix host authenticity for production server
           command: ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
@@ -93,7 +92,7 @@ workflows:
       # - test:
       #     requires:
       #       - lint
-      - deptoy2server:
+      - deploy:
           requires:
             - lint
             # - test
