@@ -21,7 +21,8 @@ jobs:
 
   test:
     docker:
-      - image: circleci/node:8.9.0
+      - image: circleci/node:10
+      - image: circleci/mongo
       - image: redis
     environment:
       SENDGRID_KEY: 'testingkey'
