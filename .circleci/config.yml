@@ -73,24 +73,34 @@ workflows:
   build_and_test:
     jobs:
       - checkout
-      - lint
-      - test
-  build-test-and-deploy:
-    jobs:
-      - checkout
-      - lint
+      - lint:
+          requires:
+            - checkout
       - test:
           requires:
             - lint
+            - checkout
+  build-test-and-deploy:
+    jobs:
+      - checkout
+      - lint:
+          requires:
+            - checkout
+      - test:
+          requires:
+            - lint
+            - checkout
       - hold: # <<< A job that will require manual approval in the CircleCI web application.
           type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
           requires: # We only run the "hold" job when test2 has succeeded
            - lint
            - test
+           - checkout
       - deploy:
           requires:
             - lint
             - test
+            - checkout
             - hold
           filters:
             branches:
