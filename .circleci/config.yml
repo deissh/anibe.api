@@ -1,11 +1,5 @@
 version: 2
 jobs:
-  checkout:
-    docker:
-      - image: circleci/node:8.9.0
-    working_dirictory: ~/repo
-    steps:
-      - checkout
 
   lint:
     docker:
@@ -13,6 +7,7 @@ jobs:
     working_dirictory: ~/repo
 
     steps:
+      - checkout
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
@@ -30,6 +25,7 @@ jobs:
     working_dirictory: ~/repo
 
     steps:
+      - checkout
       - run:
           command: yarn test --coverage
           name: "Unit test"
@@ -40,6 +36,7 @@ jobs:
     working_dirictory: ~/repo
 
     steps:
+      - checkout
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
@@ -58,6 +55,7 @@ jobs:
       enabled: true
     working_directory: ~/repo
     steps:
+      - checkout
       - add_ssh_keys:
           fingerprints:
             - "19:9a:bf:7f:ce:ea:3a:15:01:5f:e0:a6:16:23:b3:95"
@@ -72,43 +70,31 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - checkout
-      - build:
-          requires:
-            - checkout
+      - build
       - lint:
           requires:
             - build
-            - checkout
       - test:
           requires:
             - lint
-            - checkout
   build-test-and-deploy:
     jobs:
-      - checkout
-      - build:
-          requires:
-            - checkout
+      - build
       - lint:
           requires:
             - build
-            - checkout
       - test:
           requires:
             - lint
-            - checkout
       - hold: # <<< A job that will require manual approval in the CircleCI web application.
           type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
           requires: # We only run the "hold" job when test2 has succeeded
            - lint
            - test
-           - checkout
       - deploy:
           requires:
             - lint
             - test
-            - checkout
             - hold
           filters:
             branches:
