@@ -73,6 +73,7 @@ workflows:
   build_and_test:
     jobs:
       - checkout
+      - build
       - lint:
           requires:
             - checkout
@@ -83,6 +84,7 @@ workflows:
   build-test-and-deploy:
     jobs:
       - checkout
+      - build
       - lint:
           requires:
             - checkout
