@@ -33,16 +33,16 @@ describe('set email', () => {
 });
 
 describe('view', () => {
-  it('returns simple view', () => {
-    const view = user.view();
+  it('returns simple view', async () => {
+    const view = await user.view();
     expect(view).toBeDefined();
     expect(view.id).toBe(user.id);
     expect(view.name).toBe(user.name);
     expect(view.picture).toBe(user.picture);
   });
 
-  it('returns full view', () => {
-    const view = user.view(true);
+  it('returns full view', async () => {
+    const view = await user.view(true);
     expect(view).toBeDefined();
     expect(view.id).toBe(user.id);
     expect(view.name).toBe(user.name);

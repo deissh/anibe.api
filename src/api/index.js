@@ -7,6 +7,7 @@ import statusmonitor from 'express-status-monitor';
 import report from './report';
 import news from './news'
 import comment from './comment'
+import notification from './notification'
 const router = new Router();
 
 /**
@@ -40,6 +41,7 @@ router.use(statusmonitor());
 router.use('/reports', report);
 router.use('/news', news)
 router.use('/comments', comment)
+router.use('/notifications', notification)
 
 router.get('/', (req, res) => res.status(200).json({}));
 

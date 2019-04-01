@@ -8,7 +8,7 @@ export const create = ({ user, bodymen: { body } }, res, next) =>
     .catch(next);
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
-  Report.count(query)
+  Report.countDocuments(query)
     .then(count => Report.find(query, select, cursor)
       .populate('user')
       .then((reports) => ({

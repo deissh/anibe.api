@@ -3,7 +3,7 @@ import { middleware as query } from 'querymen';
 import { middleware as body } from 'bodymen';
 import { password as passwordAuth, token } from '../../services/passport';
 import { uploader } from '../../services/multer';
-import { index, showMe, show, create, update, updatePassword, destroy, badges, updateAvatar, recommendations, updateFCM, removeFCM } from './controller';
+import { index, showMe, show, create, update, updatePassword, destroy, badges, updateAvatar, offer, recommendations, updateFCM, removeFCM, addFCM } from './controller';
 import User, { schema } from './model';
 export {
   User,
@@ -11,7 +11,7 @@ export {
 };
 
 const router = new Router();
-const { email, password, name, picture, desc } = schema.tree;
+const { email, password, name, picture, desc, enablefcm } = schema.tree;
 
 /**
  * @api {get} /users Retrieve users
@@ -77,6 +77,7 @@ router.post('/',
  * @apiParam {String} [name] User's name.
  * @apiParam {String} [picture] User's picture.
  * @apiParam {String} [desc] User's description.
+ * @apiParam {Boolean} [enablefcm] Enable notifications by FCM
  * @apiSuccess {Object} user User's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 Current user or admin access only.
@@ -84,7 +85,7 @@ router.post('/',
  */
 router.put('/:id',
   token({ required: true }),
-  body({ name, picture, desc }),
+  body({ name, picture, desc, enablefcm }),
   update);
 
 /**
@@ -175,7 +176,39 @@ router.post('/:id',
 router.get('/me/offer',
   token({ required: true }),
   query(),
+  offer);
+
+/**
+ * @api {get} /users/recommendations
+ * @apiName UserRecommendations
+ * @apiGroup User
+ * @paiPermissions user
+ * @apiSuccess {Number} count Total amount of posts.
+ * @apiSuccess {Object[]} rows List of posts.
+ * @apiError 401 User access only.
+ */
+router.get('/me/recommendations',
+  token({ required: true }),
   recommendations);
+
+/**
+ * @api {put} /users/me/fcm Save FCM token
+ * @apiName SaveFCM
+ * @apiGroup User
+ * @apiPermission user
+ * @apiParam {String} access_token User access_token.
+ * @apiSuccess (Success 204) 204 No content.
+ * @apiError 401 User access only.
+ */
+router.post('/me/fcm',
+  token({ required: true }),
+  body({
+    token: {
+      type: String,
+      required: true
+    }
+  }),
+  addFCM);
 
 /**
  * @api {put} /users/me/fcm Save FCM token

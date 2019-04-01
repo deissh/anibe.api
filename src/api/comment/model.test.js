@@ -9,21 +9,17 @@ beforeEach(async () => {
 });
 
 describe('view', () => {
-  it('returns simple view', () => {
-    const view = comment.view();
+  it('returns simple view', async () => {
+    const view = await comment.view();
     expect(typeof view).toBe('object');
     expect(view.id).toBe(comment.id);
     expect(typeof view.user).toBe('object');
     expect(view.user.id).toBe(user.id);
-    expect(view.post_id).toBe(comment.post_id);
     expect(view.body).toBe(comment.body);
-    expect(view.rating).toBe(comment.rating);
-    expect(view.createdAt).toBeTruthy();
-    expect(view.updatedAt).toBeTruthy();
   });
 
-  it('returns full view', () => {
-    const view = comment.view(true);
+  it('returns full view', async () => {
+    const view = await comment.view(true);
     expect(typeof view).toBe('object');
     expect(view.id).toBe(comment.id);
     expect(typeof view.user).toBe('object');

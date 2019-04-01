@@ -3,8 +3,9 @@ import bcrypt from 'bcrypt';
 import mongoose, { Schema } from 'mongoose';
 import mongooseKeywords from 'mongoose-keywords';
 import { env } from '../../config';
+import { asyncRedisClient } from '../../services/redis';
 
-const roles = ['user', 'admin', 'dev', 'tester'];
+const roles = ['user', 'admin', 'moder', 'tester'];
 
 const userSchema = new Schema({
   email: {
@@ -40,10 +41,7 @@ const userSchema = new Schema({
   },
   badges: {
     type: Array,
-    default: [{
-      icon: 'bug',
-      name: 'Tester'
-    }]
+    default: []
   },
   // любимые
   favorite: {
@@ -70,6 +68,10 @@ const userSchema = new Schema({
   fcm: {
     type: Array,
     default: []
+  },
+  enablefcm: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true
@@ -101,17 +103,45 @@ userSchema.pre('save', function (next) {
 });
 
 userSchema.methods = {
-  view (full) {
-    let view = {};
-    let fields = ['id', 'name', 'picture', 'desc', 'badges'];
+  async view (full) {
+    const isOnline = await asyncRedisClient.get(this.id);
+    let view = {
+      id: this.id,
+      online: isOnline || false,
+      name: this.name,
+      picture: this.picture,
+      desc: this.desc,
+      badges: this.badges,
+      email: this.email,
+      role: this.role,
+      enablefcm: this.enablefcm,
+      favorite: this.favorite,
+      thrown: this.thrown,
+      inprogress: this.inprogress,
+      readed: this.readed,
+      willread: this.willread,
+      createdAt: this.createdAt
+    };
+    // let fields = ['id', 'name', 'picture', 'desc', 'badges'];
 
-    if (full) {
-      fields = [...fields, 'email', 'role', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed', 'willread'];
-    }
+    // if (full) {
+    //   fields = [...fields, 'email', 'role', 'createdAt', 'favorite', 'thrown', 'inprogress', 'readed', 'willread'];
+    // }
 
-    fields.forEach((field) => { view[field] = this[field]; });
+    return full ? {
+      ...view
+    } : {
+      id: this.id,
+      online: isOnline || false,
+      name: this.name,
+      picture: this.picture,
+      role: this.role,
+      badges: this.badges
+    };
+  },
 
-    return view;
+  tokens () {
+    return this.fcm;
   },
 
   authenticate (password) {

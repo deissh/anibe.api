@@ -1,6 +1,8 @@
 import { success, notFound, Failed } from '../../services/response/';
 import { Post } from '.';
 
+import raccoon from 'raccoon';
+
 export const create = ({ bodymen: { body } }, res, next) =>
   Post.create(body)
     .then((post) => post.view(true))
@@ -8,7 +10,7 @@ export const create = ({ bodymen: { body } }, res, next) =>
     .catch(next);
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
-  Post.count(query)
+  Post.countDocuments(query)
     .then(count => Post.find(query, select, cursor)
       .then((posts) => ({
         count,
@@ -81,6 +83,30 @@ export const addToList = ({ bodymen: { body }, params, user }, res, next) =>
         return null;
       }
     })
+    .then(async (data) => {
+      // убираем любые оценки для этой манги
+      await raccoon.unliked(user.id, params.id);
+      await raccoon.undisliked(user.id, params.id);
+
+      return data;
+    })
+    .then(async (data) => {
+      // добавляем в лайки или в дизлайки в зависимости от статуса
+      switch (body.status) {
+      case 'favorite':
+        console.log(user.id, params.id);
+
+        await raccoon.liked(user.id, params.id);
+        break;
+      case 'thrown':
+        await raccoon.disliked(user.id, params.id);
+        break;
+      default:
+        break;
+      }
+
+      return data;
+    })
     .then((data) => {
       if (data) {
         return {};
@@ -102,6 +128,13 @@ export const delFromList = ({ params, user }, res, next) =>
           willread: { id: post.id }
         }
       });
+    })
+    .then(async (data) => {
+      // убираем любые оценки для этой манги
+      await raccoon.unliked(user.id, params.id);
+      await raccoon.undisliked(user.id, params.id);
+
+      return data;
     })
     .then(success(res, 204))
     .catch(next);

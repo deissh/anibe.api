@@ -21,9 +21,9 @@ const passwordResetSchema = new Schema({
 });
 
 passwordResetSchema.methods = {
-  view (full) {
+  async view (full) {
     return {
-      user: this.user.view(full),
+      user: await this.user.view(full),
       token: this.token
     };
   }

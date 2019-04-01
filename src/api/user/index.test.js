@@ -53,7 +53,7 @@ test('GET /users?fields=name 200 (admin)', async () => {
   expect(status).toBe(200);
   expect(Array.isArray(body.rows)).toBe(true);
   expect(Number.isNaN(body.count)).toBe(false);
-  expect(Object.keys(body.rows[0])).toEqual(['id', 'name']);
+  expect(Object.keys(body.rows[0])).toEqual(['id', 'online', 'name']);
 });
 
 test('GET /users 401 (user)', async () => {

@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { middleware as query } from 'querymen';
 import { middleware as bodyman } from 'bodymen';
 import { token } from '../../services/passport';
-import { create, index, show, update, destroy } from './controller';
+import { create, show, update, destroy } from './controller';
 import Comment, { schema } from './model';
 export { Comment, schema };
 
@@ -29,22 +29,6 @@ router.post('/',
   create);
 
 /**
- * @api {get} /comments Retrieve comments
- * @apiName RetrieveComments
- * @apiGroup Comment
- * @apiPermission user
- * @apiParam {String} access_token user access token.
- * @apiUse listParams
- * @apiSuccess {Object[]} comments List of comments.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 user access only.
- */
-router.get('/',
-  token({ required: true }),
-  query(),
-  index);
-
-/**
  * @api {get} /comments/:id Retrieve comment
  * @apiName RetrieveComment
  * @apiGroup Comment
@@ -57,6 +41,7 @@ router.get('/',
  */
 router.get('/:id',
   token({ required: true }),
+  query(),
   show);
 
 /**

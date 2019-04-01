@@ -5,6 +5,22 @@
 - [Auth](#auth)
 	- [Authenticate](#authenticate)
 	
+- [Comment](#comment)
+	- [Create comment](#create-comment)
+	- [Delete comment](#delete-comment)
+	- [Retrieve comment](#retrieve-comment)
+	- [Update comment](#update-comment)
+	
+- [News](#news)
+	- [Create news](#create-news)
+	- [Delete news](#delete-news)
+	- [Retrieve news](#retrieve-news)
+	- [Update news](#update-news)
+	
+- [Notification](#notification)
+	- [Create notification](#create-notification)
+	- [Retrieve notifications](#retrieve-notifications)
+	
 - [PasswordReset](#passwordreset)
 	- [Send email](#send-email)
 	- [Submit password](#submit-password)
@@ -19,16 +35,27 @@
 	- [Retrieve posts](#retrieve-posts)
 	- [Update post](#update-post)
 	
+- [Report](#report)
+	- [Create report](#create-report)
+	- [Delete report](#delete-report)
+	- [Retrieve report](#retrieve-report)
+	- [Retrieve reports](#retrieve-reports)
+	- [Update report](#update-report)
+	
 - [User](#user)
 	- [Add user badges](#add-user-badges)
 	- [Create user](#create-user)
 	- [Delete user](#delete-user)
+	- [Remove all tokens](#remove-all-tokens)
 	- [Retrieve current user](#retrieve-current-user)
 	- [Retrieve user](#retrieve-user)
 	- [Retrieve users](#retrieve-users)
+	- [Save FCM token](#save-fcm-token)
 	- [Update password](#update-password)
 	- [Update user](#update-user)
 	- [Update user avatar](#update-user-avatar)
+	- [](#)
+	- [](#)
 	
 
 
@@ -45,6 +72,175 @@
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 | Authorization			| String			|  <p>Basic authorization with email and password.</p>							|
+
+# Comment
+
+## Create comment
+
+
+
+	POST /comments
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| post_id			| 			|  <p>Comment's post_id.</p>							|
+| body			| 			|  <p>Comment's body.</p>							|
+
+## Delete comment
+
+
+
+	DELETE /comments/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+
+## Retrieve comment
+
+
+
+	GET /comments/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+
+## Update comment
+
+
+
+	PUT /comments/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| post_id			| 			|  <p>Comment's post_id.</p>							|
+| body			| 			|  <p>Comment's body.</p>							|
+
+# News
+
+## Create news
+
+
+
+	POST /news
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>admin access token.</p>							|
+| title			| String			|  <p>News's title.</p>							|
+| body			| String			|  <p>News's body.</p>							|
+| author_id			| String			|  <p>News's author_id.</p>							|
+| preview			| String			|  <p>News's preview.</p>							|
+| background			| String			|  <p>News's background.</p>							|
+| type			| String			|  <p>News's type.</p>							|
+| annotation			| String			|  <p>New`s annotation.</p>							|
+
+## Delete news
+
+
+
+	DELETE /news/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>admin access token.</p>							|
+
+## Retrieve news
+
+
+
+	GET /news
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Update news
+
+
+
+	PUT /news/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>admin access token.</p>							|
+| title			| 			|  <p>News's title.</p>							|
+| body			| 			|  <p>News's body.</p>							|
+| author_id			| 			|  <p>News's author_id.</p>							|
+| preview			| 			|  <p>News's preview.</p>							|
+| background			| 			|  <p>News's background.</p>							|
+| type			| 			|  <p>News's type.</p>							|
+| annotation			| 			|  <p>New`s annotation.</p>							|
+
+# Notification
+
+## Create notification
+
+
+
+	POST /notifications
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>admin access token.</p>							|
+| target			| String			|  <p>target user id</p>							|
+| title			| 			|  <p>Notification's title.</p>							|
+| body			| 			|  <p>Notification's body.</p>							|
+| type			| 			|  <p>Notification's type.</p>							|
+| picture			| 			|  <p>Notification's picture.</p>							|
+| url			| 			|  <p>Notification's url.</p>							|
+
+## Retrieve notifications
+
+
+
+	GET /notifications
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
 # PasswordReset
 
@@ -123,6 +319,7 @@
 | pages			| String			|  <p>Post's pages.</p>							|
 | reading			| String			|  <p>Post's reading.</p>							|
 | episodes			| 			|  <p>Post's episodes.</p>							|
+| ReadManga			| String			|  <p>URL</p>							|
 
 ## 
 
@@ -195,6 +392,90 @@
 | reading			| String			|  <p>Post's reading.</p>							|
 | episodes			| 			|  <p>Post's episodes.</p>							|
 
+# Report
+
+## Create report
+
+
+
+	POST /reports
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| name			| 			|  <p>Report's name.</p>							|
+| body			| 			|  <p>Report's body.</p>							|
+| post_id			| 			|  <p>Report's post_id.</p>							|
+| user_id			| 			|  <p>Report's user_id.</p>							|
+| authod_id			| 			|  <p>Report's authod_id.</p>							|
+| status			| 			|  <p>Report's status.</p>							|
+
+## Delete report
+
+
+
+	DELETE /reports/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>admin access token.</p>							|
+
+## Retrieve report
+
+
+
+	GET /reports/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>admin access token.</p>							|
+
+## Retrieve reports
+
+
+
+	GET /reports
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>admin access token.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Update report
+
+
+
+	PUT /reports/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>admin access token.</p>							|
+| name			| 			|  <p>Report's name.</p>							|
+| body			| 			|  <p>Report's body.</p>							|
+| post_id			| 			|  <p>Report's post_id.</p>							|
+| user_id			| 			|  <p>Report's user_id.</p>							|
+| authod_id			| 			|  <p>Report's authod_id.</p>							|
+| status			| 			|  <p>Report's status.</p>							|
+
 # User
 
 ## Add user badges
@@ -231,6 +512,19 @@
 
 
 	DELETE /users/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>User access_token.</p>							|
+
+## Remove all tokens
+
+
+
+	DELETE /users/me/fcm
 
 
 ### Parameters
@@ -277,6 +571,19 @@
 | sort			| String[]			| **optional** <p>Order of returned items.</p>							|
 | fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
+## Save FCM token
+
+
+
+	PUT /users/me/fcm
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>User access_token.</p>							|
+
 ## Update password
 
 
@@ -310,6 +617,7 @@
 | name			| String			| **optional** <p>User's name.</p>							|
 | picture			| String			| **optional** <p>User's picture.</p>							|
 | desc			| String			| **optional** <p>User's description.</p>							|
+| enablefcm			| Boolean			| **optional** <p>Enable notifications by FCM</p>							|
 
 ## Update user avatar
 
@@ -324,5 +632,19 @@
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>User access_token.</p>							|
 | picture			| File			| **optional** <p>User's new avatar</p>							|
+
+## 
+
+
+
+	GET /users/offer
+
+
+## 
+
+
+
+	GET /users/recommendations
+
 
 
