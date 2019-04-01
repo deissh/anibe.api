@@ -1,12 +1,18 @@
 version: 2
 jobs:
+  checkout:
+    docker:
+      - image: circleci/node:8.9.0
+    working_dirictory: ~/repo
+    steps:
+      - checkout
+
   lint:
     docker:
       - image: circleci/node:8.9.0
     working_dirictory: ~/repo
 
     steps:
-      - checkout
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
@@ -24,19 +30,6 @@ jobs:
     working_dirictory: ~/repo
 
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-
-      - run: npm i --dev
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
       - run:
           command: yarn test --coverage
           name: "Unit test"
@@ -47,33 +40,24 @@ jobs:
     working_dirictory: ~/repo
 
     steps:
-      - run: "echo todo"
-      # - checkout
-      # - restore_cache:
-      #     keys:
-      #       - v1-dependencies-{{ checksum "package.json" }}
-      #       - v1-dependencies-
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
 
-      # - run: yarn install
+      - run: yarn install
 
-      # - save_cache:
-      #     paths:
-      #       - node_modules
-      #     key: v1-dependencies-{{ checksum "package.json" }}
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
 
-      # - run:
-      #     command: yarn docs
-      #     name: "Unit test"
-
-      # - store_test_results:
-      #   path: coverage
 
   deploy:
     machine:
       enabled: true
     working_directory: ~/repo
     steps:
-      - checkout
       - add_ssh_keys:
           fingerprints:
             - "19:9a:bf:7f:ce:ea:3a:15:01:5f:e0:a6:16:23:b3:95"
@@ -88,15 +72,26 @@ workflows:
   version: 2
   build_and_test:
     jobs:
+      - checkout
       - lint
-      # - test:
-      #     requires:
-      #       - lint
+      - test
+  build-test-and-deploy:
+    jobs:
+      - checkout
+      - lint
+      - test:
+          requires:
+            - lint
+      - hold: # <<< A job that will require manual approval in the CircleCI web application.
+          type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
+          requires: # We only run the "hold" job when test2 has succeeded
+           - lint
+           - test
       - deploy:
           requires:
             - lint
             - test
-            # - test
+            - hold
           filters:
             branches:
               only: master
