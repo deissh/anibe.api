@@ -8,6 +8,8 @@ import report from './report';
 import news from './news';
 import comment from './comment';
 import notification from './notification';
+import chats from './chats'
+import messages from './messages'
 const router = new Router();
 
 /**
@@ -42,6 +44,8 @@ router.use('/reports', report);
 router.use('/news', news);
 router.use('/comments', comment);
 router.use('/notifications', notification);
+router.use('/chats', chats)
+router.use('/messages', messages)
 
 router.get('/', (req, res) => res.status(200).json({}));
 
