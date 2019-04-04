@@ -3,14 +3,21 @@ import { Messages } from '../messages';
 
 const chatsSchema = new Schema({
   name: {
-    type: String
+    type: String,
+    required: true
   },
   picture: {
-    type: String
+    type: String,
+    default: ''
   },
   users: {
     type: Array,
     default: []
+  },
+  admin: {
+    type: Schema.ObjectId,
+    ref: 'User',
+    required: true
   }
 }, {
   timestamps: true,
@@ -30,7 +37,8 @@ chatsSchema.methods = {
       name: this.name,
       picture: this.picture,
       users: this.users,
-      lastmessage: lastmessage || {},
+      admin: await this.admin.view(false),
+      lastmessage: lastmessage ? await lastmessage.view() : {},
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     };

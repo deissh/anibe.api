@@ -5,7 +5,8 @@ import { Chats } from '.';
 export const create = ({ user, bodymen: { body } }, res, next) =>
   Chats.create({
     ...body,
-    users: [ user.id ]
+    users: [ user.id ],
+    admin: user
   })
     .then(async (chats) => await chats.view(true))
     .then(success(res, 201))
@@ -44,14 +45,14 @@ export const destroy = ({ params }, res, next) =>
     .then(success(res, 204))
     .catch(next);
 
-export const action = ({ bodymen: { body }, params }, res, next) =>
+export const action = ({ user, bodymen: { body }, params }, res, next) =>
   Chats.findById(params.id)
     .then(notFound(res))
     .then((chat) => {
       // список разрешенных списков у пользователя
       const lists = ['kick', 'add'];
 
-      if (!lists.includes(body.action)) {
+      if (!lists.includes(body.action) && chat.admin.id === user.id) {
         return null;
       }
 
