@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { middleware as query } from 'querymen';
 import { middleware as body } from 'bodymen';
 import { token } from '../../services/passport';
-import { create, index, show, update, destroy } from './controller';
+import { create, index, show, update, destroy, action } from './controller';
 import Chats, { schema } from './model';
 export { Chats, schema };
 
@@ -26,6 +26,24 @@ router.post('/',
   token({ required: true }),
   body({ name, picture }),
   create);
+
+/**
+ * @api {post} /chats/:id/actions Add or remove user in chat
+ * @apiName ActionsToChat
+ * @apiGroup Chats
+ * @apiPermission user
+ * @apiParam {String} access_token user access token.
+ * @apiParam user_id User's id.
+ * @apiParam action Action name (add, kick)
+ * @apiSuccess {Object} chats Chats's data.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 404 Chats not found.
+ * @apiError 401 user access only.
+ */
+router.post('/:id/actions',
+  token({ required: true }),
+  body({ user_id: String, action: String }),
+  action);
 
 /**
  * @api {get} /chats Retrieve chats

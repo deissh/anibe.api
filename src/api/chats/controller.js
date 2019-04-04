@@ -43,3 +43,36 @@ export const destroy = ({ params }, res, next) =>
     .then((chats) => chats ? chats.remove() : null)
     .then(success(res, 204))
     .catch(next);
+
+export const action = ({ bodymen: { body }, params }, res, next) =>
+  Chats.findById(params.id)
+    .then(notFound(res))
+    .then((chat) => {
+      // список разрешенных списков у пользователя
+      const lists = ['kick', 'add'];
+
+      if (!lists.includes(body.action)) {
+        return null;
+      }
+
+      return chat;
+    })
+    .then(notFound(res))
+    .then(async (chats) => {
+      if (body.action === 'kick') {
+        return chats.update({
+          '$pull': {
+            users: body.user_id
+          }
+        });
+      }
+      if (body.action === 'add') {
+        return chats.update({
+          '$push': {
+            users: body.user_id
+          }
+        });
+      }
+    })
+    .then(success(res, 204))
+    .catch(next);
