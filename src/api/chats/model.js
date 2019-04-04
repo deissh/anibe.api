@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import { Messages } from '../messages';
 
 const chatsSchema = new Schema({
   name: {
@@ -7,13 +8,9 @@ const chatsSchema = new Schema({
   picture: {
     type: String
   },
-  users: [{
-    type: Schema.ObjectId,
-    ref: 'User'
-  }],
-  lastmessage: {
-    type: Schema.ObjectId,
-    ref: 'Messages'
+  users: {
+    type: Array,
+    default: []
   }
 }, {
   timestamps: true,
@@ -24,22 +21,21 @@ const chatsSchema = new Schema({
 });
 
 chatsSchema.methods = {
-  view (full) {
+  async view (full) {
+    const lastmessage = await Messages.findOne({ chat_id: this.id });
+
     const view = {
       // simple view
       id: this.id,
       name: this.name,
       picture: this.picture,
       users: this.users,
-      lastmessage: this.lastmessage,
+      lastmessage: lastmessage || {},
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     };
 
-    return full ? {
-      ...view
-      // add properties for a full view
-    } : view;
+    return view;
   }
 };
 

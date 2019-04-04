@@ -1,9 +1,18 @@
 /* eslint-disable no-return-await */
 import { success, notFound, authorOrAdmin } from '../../services/response/';
 import { Messages } from '.';
+import { Chats } from '../chats';
 
 export const create = ({ user, bodymen: { body }, params }, res, next) =>
-  Messages.create({ ...body, user, chat_id: params.id })
+  Chats.findById(params.id)
+    .then((chat) => {
+      if (!chat.users.includes(user.id)) {
+        return;
+      }
+      return chat;
+    })
+    .then(notFound(res))
+    .then((chat) => Messages.create({ ...body, user, chat_id: chat.id }))
     .then(async (messages) => await messages.view(true))
     .then(success(res, 201))
     .catch(next);
