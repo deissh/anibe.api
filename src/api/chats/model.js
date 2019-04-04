@@ -37,7 +37,7 @@ chatsSchema.methods = {
       name: this.name,
       picture: this.picture,
       users: this.users,
-      admin: await this.admin.view(false),
+      admin: this.admin,
       lastmessage: lastmessage ? await lastmessage.view() : {},
       createdAt: this.createdAt,
       updatedAt: this.updatedAt

@@ -6,6 +6,7 @@
 	- [Authenticate](#authenticate)
 	
 - [Chats](#chats)
+	- [Add or remove user in chat](#add-or-remove-user-in-chat)
 	- [Create chats](#create-chats)
 	- [Delete chats](#delete-chats)
 	- [Retrieve chats](#retrieve-chats)
@@ -86,6 +87,21 @@
 | Authorization			| String			|  <p>Basic authorization with email and password.</p>							|
 
 # Chats
+
+## Add or remove user in chat
+
+
+
+	POST /chats/:id/actions
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| user_id			| 			|  <p>User's id.</p>							|
+| action			| 			|  <p>Action name (add, kick)</p>							|
 
 ## Create chats
 
@@ -214,7 +230,7 @@
 
 
 
-	POST /messages
+	POST /messages/:chat-id
 
 
 ### Parameters
@@ -229,7 +245,7 @@
 
 
 
-	DELETE /messages/:id
+	DELETE /messages/:msg-id
 
 
 ### Parameters
@@ -242,7 +258,7 @@
 
 
 
-	GET /messages
+	GET /messages/:chat-id
 
 
 ### Parameters
@@ -260,7 +276,7 @@
 
 
 
-	PUT /messages/:id
+	PUT /messages/:msg-id
 
 
 ### Parameters
