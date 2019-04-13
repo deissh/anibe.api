@@ -94,9 +94,9 @@ workflows:
       - lint:
           requires:
             - build
-      - test:
-          requires:
-            - lint
+      # - test:
+      #     requires:
+      #       - lint
       - hold: # <<< A job that will require manual approval in the CircleCI web application.
           type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
           filters:
@@ -104,11 +104,11 @@ workflows:
               only: master
           requires: # We only run the "hold" job when test2 has succeeded
            - lint
-           - test
+          #  - test
       - deploy:
           requires:
             - lint
-            - test
+            # - test
             - hold
           filters:
             branches:
