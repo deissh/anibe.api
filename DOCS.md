@@ -5,11 +5,24 @@
 - [Auth](#auth)
 	- [Authenticate](#authenticate)
 	
+- [Chats](#chats)
+	- [Add or remove user in chat](#add-or-remove-user-in-chat)
+	- [Create chats](#create-chats)
+	- [Delete chats](#delete-chats)
+	- [Retrieve chats](#retrieve-chats)
+	- [Update chats](#update-chats)
+	
 - [Comment](#comment)
 	- [Create comment](#create-comment)
 	- [Delete comment](#delete-comment)
 	- [Retrieve comment](#retrieve-comment)
 	- [Update comment](#update-comment)
+	
+- [Messages](#messages)
+	- [Create messages](#create-messages)
+	- [Delete messages](#delete-messages)
+	- [Retrieve messages](#retrieve-messages)
+	- [Update messages](#update-messages)
 	
 - [News](#news)
 	- [Create news](#create-news)
@@ -73,6 +86,86 @@
 |---------|-----------|--------------------------------------|
 | Authorization			| String			|  <p>Basic authorization with email and password.</p>							|
 
+# Chats
+
+## Add or remove user in chat
+
+
+
+	POST /chats/:id/actions
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| user_id			| 			|  <p>User's id.</p>							|
+| action			| 			|  <p>Action name (add, kick)</p>							|
+
+## Create chats
+
+
+
+	POST /chats
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| name			| 			|  <p>Chats's name.</p>							|
+| picture			| 			|  <p>Chats's picture.</p>							|
+
+## Delete chats
+
+
+
+	DELETE /chats/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+
+## Retrieve chats
+
+
+
+	GET /chats
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Update chats
+
+
+
+	PUT /chats/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| name			| 			|  <p>Chats's name.</p>							|
+| picture			| 			|  <p>Chats's picture.</p>							|
+| users			| 			|  <p>Chats's users.</p>							|
+| lastmessage			| 			|  <p>Chats's lastmessage.</p>							|
+
 # Comment
 
 ## Create comment
@@ -130,6 +223,69 @@
 | access_token			| String			|  <p>user access token.</p>							|
 | post_id			| 			|  <p>Comment's post_id.</p>							|
 | body			| 			|  <p>Comment's body.</p>							|
+
+# Messages
+
+## Create messages
+
+
+
+	POST /messages/:chat-id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| body			| 			|  <p>Messages's body.</p>							|
+| attachments			| 			|  <p>Messages's attachments.</p>							|
+
+## Delete messages
+
+
+
+	DELETE /messages/:msg-id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+
+## Retrieve messages
+
+
+
+	GET /messages/:chat-id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Update messages
+
+
+
+	PUT /messages/:msg-id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| body			| 			|  <p>Messages's body.</p>							|
+| attachments			| 			|  <p>Messages's attachments.</p>							|
 
 # News
 
