@@ -43,6 +43,10 @@ const userSchema = new Schema({
     type: Array,
     default: []
   },
+  refreshTokens: {
+    type: Array,
+    default: []
+  },
   // любимые
   favorite: {
     type: Array,
@@ -114,6 +118,7 @@ userSchema.methods = {
       badges: this.badges,
       email: this.email,
       role: this.role,
+      refreshTokens: this.refreshTokens,
       enablefcm: this.enablefcm,
       favorite: this.favorite,
       thrown: this.thrown,
@@ -121,6 +126,7 @@ userSchema.methods = {
       readed: this.readed,
       willread: this.willread,
       createdAt: this.createdAt
+
     };
     // let fields = ['id', 'name', 'picture', 'desc', 'badges'];
 
@@ -136,7 +142,8 @@ userSchema.methods = {
       name: this.name,
       picture: this.picture,
       role: this.role,
-      badges: this.badges
+      badges: this.badges,
+      refreshTokens: this.refreshTokens
     };
   },
 
