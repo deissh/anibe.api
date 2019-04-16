@@ -30,10 +30,25 @@ export const show = ({ params }, res, next) =>
 export const showMe = async ({ user }, res) =>
   res.json(await user.view(true));
 
+  export const addRefreshToken = (RefreshToken) =>
+  {
+      return user.update({
+        '$push': {
+          RefreshTokens: RefreshToken
+        }
+      });
+    }
+
+    export const createRefreshToken= ( user) =>
+    {
+      return jwt.sign(user,'megasekretniysuperkey2281337yamamkinproger')
+    }
+
 export const create = ({ bodymen: { body } }, res, next) =>
   User.create(body)
     .then(user => {
       sign(user.id)
+        .then(addRefreshToken(createRefreshToken(user)))
         .then(async (token) => ({ token, user: await user.view(true) }))
         .then(success(res, 201));
     })
