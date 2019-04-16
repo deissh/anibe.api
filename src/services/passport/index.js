@@ -68,11 +68,29 @@ passport.use('token', new JwtStrategy({
   jwtFromRequest: ExtractJwt.fromExtractors([
     ExtractJwt.fromUrlQueryParameter('access_token'),
     ExtractJwt.fromBodyField('access_token'),
-    ExtractJwt.fromAuthHeaderWithScheme('Bearer')
+    ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+    ExtractJwt.fromUrlQueryParameter('refresh_token'),
+    ExtractJwt.fromBodyField('refresh_token'),
+    ExtractJwt.fromAuthHeaderWithScheme('refresh_token')
   ])
-}, ({ id }, done) => {
+  
+}, ({ id, refresh }, done) => {
   User.findById(id).then((user) => {
-    done(null, user);
-    return null;
+    if (user.refreshTokens.contains(refresh))
+    {
+      try{
+      jwt.verify(id, jwtSecret);
+      // Успешная проверка
+      done(null, user);
+      return null;}
+      
+      catch(err)
+      {
+        // todo: Выдаем новый токен, при этом не выкидываем с акка!!!!!!!
+        // todo: Выдаем новый токен, при этом не выкидываем с акка!!!!!
+        // todo: Выдаем новый токен, при этом не выкидываем с акка!!!!!!!!
+        done
+      }
+    }
   }).catch(done);
 }));

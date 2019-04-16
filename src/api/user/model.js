@@ -43,6 +43,10 @@ const userSchema = new Schema({
     type: Array,
     default: []
   },
+  refreshTokens: {
+    type: Array,
+    default: []
+  },
   // любимые
   favorite: {
     type: Array,

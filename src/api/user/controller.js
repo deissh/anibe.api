@@ -7,6 +7,7 @@ import { Post } from '../post';
 
 import raccoon from 'raccoon';
 import { Types } from 'mongoose';
+import { jwtSecret } from '../../config';
 
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   User.countDocuments(query)
@@ -30,10 +31,25 @@ export const show = ({ params }, res, next) =>
 export const showMe = async ({ user }, res) =>
   res.json(await user.view(true));
 
+export const createRefreshToken = (user) =>
+{
+  return jwt.sign(user,jwtSecret)
+}
+
+export const addRefreshToken = (refreshToken) =>
+{
+  return user.update({
+    '$push': {
+      refreshTokens: refreshToken
+    }
+  });
+}
+
 export const create = ({ bodymen: { body } }, res, next) =>
   User.create(body)
     .then(user => {
       sign(user.id)
+        .then(addRefreshToken(createRefreshToken(user)))
         .then(async (token) => ({ token, user: await user.view(true) }))
         .then(success(res, 201));
     })
@@ -99,6 +115,8 @@ export const updatePassword = ({ bodymen: { body }, params, user }, res, next) =
       return result;
     })
     .then((user) => user ? user.set({ password: body.password }).save() : null)
+    .then(addRefreshToken(createRefreshToken(user)))
+    .then()
     .then(async (user) => user ? await user.view(true) : null)
     .then(success(res))
     .catch(next);
