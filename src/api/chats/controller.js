@@ -74,6 +74,7 @@ export const action = ({ user, bodymen: { body }, params }, res, next) =>
           }
         });
       }
+      return chats;
     })
     .then(success(res, 204))
     .catch(next);

@@ -3,7 +3,7 @@ import { middleware as query } from 'querymen';
 import { middleware as body } from 'bodymen';
 import { password as passwordAuth, token } from '../../services/passport';
 import { uploader } from '../../services/multer';
-import { index, showMe, show, create, update, updatePassword, destroy, badges, updateAvatar, offer, recommendations, updateFCM, removeFCM, addFCM } from './controller';
+import { index, showMe, show, create, update, updatePassword, destroy, badges, updateAvatar, offer, recommendations, updateFCM, removeFCM, addFCM, showByName } from './controller';
 import User, { schema } from './model';
 export {
   User,
@@ -51,6 +51,17 @@ router.get('/me',
  */
 router.get('/:id',
   show);
+
+/**
+ * @api {get} /users/:id Retrieve user by name
+ * @apiName RetrieveUser
+ * @apiGroup User
+ * @apiPermission public
+ * @apiSuccess {Object} user User's data.
+ * @apiError 404 User not found.
+ */
+router.get('/name/:name',
+  showByName);
 
 /**
  * @api {post} /users Create user
