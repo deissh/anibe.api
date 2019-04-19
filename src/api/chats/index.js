@@ -7,7 +7,7 @@ import Chats, { schema } from './model';
 export { Chats, schema };
 
 const router = new Router();
-const { name, picture, users } = schema.tree;
+const { name, picture } = schema.tree;
 
 /**
  * @api {post} /chats Create chats
@@ -85,7 +85,6 @@ router.get('/:id',
  * @apiParam {String} access_token user access token.
  * @apiParam name Chats's name.
  * @apiParam picture Chats's picture.
- * @apiParam users Chats's users.
  * @apiParam lastmessage Chats's lastmessage.
  * @apiSuccess {Object} chats Chats's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
@@ -94,7 +93,7 @@ router.get('/:id',
  */
 router.put('/:id',
   token({ required: true }),
-  body({ name, picture, users }),
+  body({ name, picture }),
   update);
 
 /**
