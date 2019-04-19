@@ -27,6 +27,13 @@ export const show = ({ params }, res, next) =>
     .then(success(res))
     .catch(next);
 
+export const showByName = ({ params }, res, next) =>
+  User.findOne({ name: params.name })
+    .then(notFound(res))
+    .then(async (user) => user ? await user.view() : null)
+    .then(success(res))
+    .catch(next);
+
 export const showMe = async ({ user }, res) =>
   res.json(await user.view(true));
 
