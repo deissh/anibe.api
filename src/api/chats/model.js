@@ -29,7 +29,7 @@ const chatsSchema = new Schema({
 
 chatsSchema.methods = {
   async view (full) {
-    const lastmessage = await Messages.findOne({ chat_id: this.id });
+    const lastmessage = await Messages.findOne({ chat_id: this.id }, {}, { createdAt: -1 });
 
     const view = {
       // simple view

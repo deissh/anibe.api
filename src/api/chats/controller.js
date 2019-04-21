@@ -1,5 +1,5 @@
 /* eslint-disable no-return-await */
-import { success, notFound } from '../../services/response/';
+import { success, notFound, Failed } from '../../services/response/';
 import { Chats } from '.';
 
 export const create = ({ user, bodymen: { body } }, res, next) =>
@@ -52,13 +52,13 @@ export const action = ({ user, bodymen: { body }, params }, res, next) =>
       // список разрешенных списков у пользователя
       const lists = ['kick', 'add'];
 
-      if (!lists.includes(body.action) && chat.admin.id === user.id) {
+      if ((!lists.includes(body.action) && chat.admin.id === user.id) || (chat.users.includes(body.user_id) && body.action === 'add')) {
         return null;
       }
 
       return chat;
     })
-    .then(notFound(res))
+    .then(Failed(res, 400, 'user already in chat'))
     .then(async (chats) => {
       if (body.action === 'kick') {
         return chats.update({
